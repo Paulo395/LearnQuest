@@ -1,11 +1,10 @@
-import logo from './logo.svg';
+import './Login.css';
 import './App.css';
+import Login from './Login';
 
 function App() {
   return (
-    <div>
-      <h1>Olá LearnQuest!</h1>
-    </div>
+    <Login/>
   );
 }
 
