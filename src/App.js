@@ -1,10 +1,17 @@
-import './Login.css';
-import './App.css';
+// App.js
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import Login from './Login';
+import Aluno from './Aluno';
+import Admin from './Admin';
 
 function App() {
   return (
-    <Login/>
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/aluno" element={<Aluno />} />
+      <Route path="/admin" element={<Admin />} />
+    </Routes>
   );
 }
 

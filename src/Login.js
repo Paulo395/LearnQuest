@@ -1,10 +1,13 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import logo from './img/logo.svg';
-import arrow from './img/arrow.svg'
-import './Login.css'
+import arrow from './img/arrow.svg';
+import './Login.css';
 import './App.css';
 
 function Login() {
+  const navigate = useNavigate(); // Utilize useNavigate em vez de useHistory
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -13,26 +16,26 @@ function Login() {
   const handleLogin = () => {
     // Verificar as credenciais
     if (email === 'aa' && password === 'aa') {
-      // Redirecionar para a página de usuário
+      // Redirecionar para a página de aluno
       setLoggedIn(true);
-      // Aqui você pode fazer o redirecionamento para a página de usuário
+      navigate('/aluno'); // Utilize o navigate para redirecionar
     } else if (email === 'bb' && password === 'bb') {
       // Redirecionar para a página de administrador
       setLoggedIn(true);
-      // Aqui você pode fazer o redirecionamento para a página de administrador
+      navigate('/admin'); // Utilize o navigate para redirecionar
     } else {
       // Exibir mensagem de erro
       setErrorMessage('Credenciais inválidas. Tente novamente.');
     }
-  }; 
+  };
 
   return (
     <div className='container'>
       <header className='header'>
-        <img src={logo} alt='workspace'/>
+        <img src={logo} alt='workspace' />
         <span>Faça o seu login</span>
       </header>
-      
+
       <form>
         <div className='inputContainer'>
           <label htmlFor='email'>E-Mail</label>
@@ -41,6 +44,8 @@ function Login() {
             name='email'
             id='email'
             placeholder='exemploemail@gmail.com'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
 
@@ -51,12 +56,14 @@ function Login() {
             name='password'
             id='password'
             placeholder='********'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
 
-        <a href=''>Esqueceu a sua senha?</a>
-        <button className='button'>
-          Entrar <img src={arrow} alt=''/>
+        <a href='#'>Esqueceu a sua senha?</a>
+        <button className='button' type='button' onClick={handleLogin}>
+          Entrar <img src={arrow} alt='' />
         </button>
 
         <div className='footer'>
