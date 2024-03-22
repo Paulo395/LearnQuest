@@ -18,6 +18,7 @@ function Login() {
     if (email === 'aa' && password === 'aa') {
       // Redirecionar para a página de aluno
       setLoggedIn(true);
+      
       navigate('/aluno'); // Utilize o navigate para redirecionar
     } else if (email === 'bb' && password === 'bb') {
       // Redirecionar para a página de administrador

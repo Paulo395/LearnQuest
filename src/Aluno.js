@@ -1,11 +1,13 @@
-import Sidebar from "./components/Sidebar/Sidebar";
+import Sidebar from "./components/Drawer/Sidebar/Sidebar";
+import Header from "./components/Drawer/Header/Header";
+import "./Aluno.css"
 
 function Aluno() {
     return (
      <div>
-        <h1>Aluno</h1>
+      <h1>teste</h1>
+        <Header/>
         <Sidebar/>
-        <p>testeeeeee</p>
      </div>
     );
   }
