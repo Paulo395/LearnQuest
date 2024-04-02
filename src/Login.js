@@ -14,18 +14,20 @@ function Login() {
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoggedIn, setLoggedIn] = useState(false);
 
-  const handleLogin = () => {
-    // Verificar as credenciais
-    if (email === 'aa' && password === 'aa') {
-      // Redirecionar para a página de aluno
-      setLoggedIn(true);
-      navigate('/aluno'); // Utilize o navigate para redirecionar
-    } else if (email === 'bb' && password === 'bb') {
-      // Redirecionar para a página de administrador
-      setLoggedIn(true);
-      navigate('/admin'); // Utilize o navigate para redirecionar
-    } else {
-      // Exibir mensagem de erro
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post('https://localhost:7243/api/usuario/login', {
+        email,
+        senha: password, // 'senha' é o nome do campo esperado pelo backend
+      });
+
+      // Se o login for bem-sucedido, redirecione o usuário para a página adequada
+      if (response.status === 200) {
+        navigate('/aluno');
+      }
+
+    } catch (error) {
+      // Em caso de erro, exiba uma mensagem de erro
       setErrorMessage('Credenciais inválidas. Tente novamente.');
     }
   };
