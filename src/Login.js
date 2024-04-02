@@ -18,25 +18,30 @@ function Login() {
     try {
       const response = await axios.post('https://localhost:7243/api/usuario/login', {
         email,
-        senha: password, // 'senha' é o nome do campo esperado pelo backend
+        senha: password
       });
-
-      // Se o login for bem-sucedido, redirecione o usuário para a página adequada
+  
       if (response.status === 200) {
-        navigate('/aluno');
+        const { tipoUsuario } = response.data;
+        if (tipoUsuario === 'Admin') {
+          window.location.href = '/admin';
+        } else if (tipoUsuario === 'Aluno') {
+          window.location.href = '/aluno';
+        } else {
+          setErrorMessage('Tipo de usuário desconhecido.');
+        }
       }
-
+  
     } catch (error) {
-      // Em caso de erro, exiba uma mensagem de erro
       setErrorMessage('Credenciais inválidas. Tente novamente.');
     }
   };
-
+  
   return (
     <div className='container'>
       <header className='header'>
         <img src={logo} alt='workspace' />
-        <span>Faça o seu login</span>
+        <span>Minha Conta</span>
       </header>
 
       <form>

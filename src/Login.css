@@ -1,3 +1,9 @@
+/*
+body{
+    background-image: url(./img/FundoLogin.jpg);
+    background-size: cover;
+}
+*/
 .container{
     width: 35vw; /* Define a largura da div como 80% da largura do viewport */
     height: 80vh; /* Define a altura da div como 80% da altura do viewport */
@@ -53,7 +59,7 @@
     width: 520px;
     height: 20px;
 
-    border: 1px solid #5c73db;
+    border: 1px solid #d8d9db;
     border-radius: 12px;
     margin-bottom: 12px;
 }
@@ -78,7 +84,7 @@
     width: 520px;
     height: 48px;
     
-    background: #5c73db;
+    background: #72bb53;
     border-radius: 12px;
 
     font-size: 18px;

@@ -4,7 +4,7 @@ const AdminDashboard = () => {
   return (
     <div>
       <h2>Dashboard do Admin</h2>
-      <p>Conteúdo da dashboard...</p>
+      <p>Conteúdo da dashboard</p>
     </div>
   );
 };

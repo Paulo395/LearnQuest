@@ -1,12 +1,12 @@
 import React from 'react';
 
-const AlunoMensagens = () => {
+const AdminMensagens = () => {
   return (
     <div>
-      <h2>Mensagens do Aluno</h2>
+      <h2>Mensagens do Admin</h2>
       <p>Conteúdo das mensagens</p>
     </div>
   );
 };
 
-export default AlunoMensagens;
+export default AdminMensagens;

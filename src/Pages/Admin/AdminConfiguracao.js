@@ -1,12 +1,12 @@
 import React from 'react';
 
-const AlunoJogos = () => {
+const AdminJogos = () => {
   return (
     <div>
       <h2>Jogos do Aluno</h2>
-      <p>Conteúdo da aba Jogos</p>
+      <p>Conteúdo da aba Jogos...</p>
     </div>
   );
 };
 
-export default AlunoJogos;
+export default AdminJogos;

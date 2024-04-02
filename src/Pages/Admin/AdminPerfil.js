@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AlunoMensagens = () => {
+const AdminPerfil = () => {
   return (
     <div>
       <h2>Mensagens do Aluno</h2>
@@ -9,4 +9,4 @@ const AlunoMensagens = () => {
   );
 };
 
-export default AlunoMensagens;
+export default AdminPerfil;
