@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import logo from './img/logo.png';
 import arrow from './img/arrow.svg';
 import './Login.css';
 import './App.css';
 
 function Login() {
-  const navigate = useNavigate(); // Utilize useNavigate em vez de useHistory
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,7 +19,6 @@ function Login() {
     if (email === 'aa' && password === 'aa') {
       // Redirecionar para a página de aluno
       setLoggedIn(true);
-      
       navigate('/aluno'); // Utilize o navigate para redirecionar
     } else if (email === 'bb' && password === 'bb') {
       // Redirecionar para a página de administrador
@@ -44,7 +44,7 @@ function Login() {
             type='text'
             name='email'
             id='email'
-            placeholder='exemploemail@gmail.com'
+            placeholder='exemplo@gmail.com'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />

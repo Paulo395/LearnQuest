@@ -4,8 +4,7 @@ import "./Aluno.css"
 
 function Aluno() {
     return (
-     <div>
-      <h1>teste</h1>
+     <div className='containerAluno'>
         <Header/>
         <Sidebar/>
      </div>

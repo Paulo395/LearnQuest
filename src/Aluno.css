@@ -1,7 +1,7 @@
-.container {
+.containerAluno .container {
     width: 80vw; /* Define a largura da div como 80% da largura do viewport */
     height: 80vh; /* Define a altura da div como 80% da altura do viewport */
-    margin: 60px 40px 10px auto; /* Define uma margem superior e inferior de 50px e centraliza horizontalmente */
+    margin: 120px 40px 10px auto; /* Define uma margem superior e inferior de 50px e centraliza horizontalmente */
     padding: 20px; /* Adiciona um preenchimento interno de 20px */
     background-color: #ffffff; /* Cor de fundo */
     display: flex; /* Usa flexbox para centralizar verticalmente */
