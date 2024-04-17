@@ -1,17 +1,17 @@
 .containerAluno {
-    width: calc(100% - 240px); /* Ajusta a largura subtraindo a largura da sidebar */
-    min-width: 300px; /* Mínimo de largura */
-    height: 72vh; /* Altura baseada no conteúdo 72hv parece bom*/
-    margin: 130px 20px 10px 260px; /* Ajusta o margem esquerda para não ficar atrás da sidebar */
-    padding: 20px; /* Preenchimento interno */
-    background-color: #ffffff; /* Cor de fundo */
+    width: calc(100% - 240px);
+    min-width: 300px; 
+    height: 72vh; 
+    margin: 130px 20px 10px 260px; 
+    padding: 20px;
+    background-color: #ffffff; 
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     border-radius: 40px;
-    position: relative; /* Garante que a div não fique atrás de outros elementos */
-    z-index: 1; /* Eleva o nível da div na pilha de elementos */
+    position: relative;
+    z-index: 1; 
 }
 
 @media (max-width: 768px) {

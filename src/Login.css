@@ -1,13 +1,13 @@
 
 
 .container{
-    width: 90%; /* Define a largura da div como 80% da largura do viewport */
-    height: 80%; /* Define a altura da div como 80% da altura do viewport NADA */
-    margin: 80px auto; /* Define uma margem superior e inferior de 50px e centraliza horizontalmente */
-    padding: 20px; /* Adiciona um preenchimento interno de 20px */
-    background-color: #ffffff; /* Cor de fundo */
-    display: flex; /* Usa flexbox para centralizar verticalmente NADA*/
-    justify-content: center; /* Centraliza horizontalmente NADA */
+    width: 90%; 
+    height: 80%;
+    margin: 80px auto; 
+    padding: 20px; 
+    background-color: #ffffff; 
+    display: flex; 
+    justify-content: center;
     border-radius: 40px;
     flex-direction: column;
 }
