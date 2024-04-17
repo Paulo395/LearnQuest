@@ -38,6 +38,7 @@ function Login() {
   };
   
   return (
+    <div className='testeInicio'>
     <div className='container'>
       <header className='header'>
         <img src={logo} alt='workspace' />
@@ -81,6 +82,7 @@ function Login() {
 
         {errorMessage && <p className='error-message'>{errorMessage}</p>}
       </form>
+    </div>
     </div>
   );
 }

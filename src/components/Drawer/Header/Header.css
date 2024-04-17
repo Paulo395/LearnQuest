@@ -1,21 +1,10 @@
 .MenuHeader{
-    position: fixed; /* Define a posição fixa para a header */
-    top: 0; /* Alinha a header no topo da página */
-    left: 0; /* Alinha a header à esquerda da página */
-    width: 100%; /* Define a largura total da header */
-    z-index: 1000; /* Garante que a header esteja na frente de outros elementos */
-    background-color: #ffffff; /* Cor de fundo da header */
-    padding: 0.5rem 1rem; /* Reduz o padding superior e inferior */
-    height: 5rem; /* Altura da header */
-    color: black;
-}
-
-.MenuHeader h1{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    font-weight: 400;
-    font-size: 22px;
-    color: #305877;
-    padding: 10px 0;
+    padding: 20;
+    background-color: #cbe2e6;
+    text-align: left;
+    position: 'fixed';
+    top: 0;
+    left: 240;
+    right: 0;
+    z-index: 1000;
 }

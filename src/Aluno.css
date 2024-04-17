@@ -1,11 +1,29 @@
 .containerAluno {
-    width: 80vw; /* Define a largura da div como 80% da largura do viewport */
-    height: 80vh; /* Define a altura da div como 80% da altura do viewport */
-    margin: 120px 40px 10px auto; /* Define uma margem superior e inferior de 50px e centraliza horizontalmente */
-    padding: 20px; /* Adiciona um preenchimento interno de 20px */
+    width: calc(100% - 240px); /* Ajusta a largura subtraindo a largura da sidebar */
+    min-width: 300px; /* Mínimo de largura */
+    height: 72vh; /* Altura baseada no conteúdo 72hv parece bom*/
+    margin: 130px 20px 10px 260px; /* Ajusta o margem esquerda para não ficar atrás da sidebar */
+    padding: 20px; /* Preenchimento interno */
     background-color: #ffffff; /* Cor de fundo */
-    display: flex; /* Usa flexbox para centralizar verticalmente */
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center; /* Centraliza verticalmente */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     border-radius: 40px;
+    position: relative; /* Garante que a div não fique atrás de outros elementos */
+    z-index: 1; /* Eleva o nível da div na pilha de elementos */
+}
+
+@media (max-width: 768px) {
+    .containerAluno {
+        width: 90%; /* Aumenta a largura para telas menores */
+        margin: 80px 5% 10px 5%; /* Ajuste de margem para centralizar e evitar sobreposição */
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .containerAluno {
+        width: 90%; /* Ajuste fino para tablets */
+        margin: 100px 5% 10px 5%; /* Margem ajustada para espaço adicional */
+    }
 }
