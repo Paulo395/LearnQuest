@@ -1,4 +1,5 @@
-import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText} from '@mui/material';
+import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider} from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import SchoolIcon from '@mui/icons-material/School';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
@@ -10,6 +11,10 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import './Sidebar.css'
 
 const Sidebar = ({ selectedOption, handleOptionSelect }) => {
+const navigate = useNavigate();
+const handleGoBack = () => {
+  navigate(-1);
+};
   return (
     <Drawer 
       variant="permanent"
@@ -73,22 +78,23 @@ const Sidebar = ({ selectedOption, handleOptionSelect }) => {
           <ListItemText primary="Perfil" />
         </ListItemButton>
 
+        <Divider variant="middle" sx={{borderColor: 'White', borderWidth: 1, margin: 1}} />
+
         <ListItemButton onClick={() => handleOptionSelect('configuracoes')}>
           <ListItemIcon sx={{ justifyContent: 'center', marginRight: 2}}>
             <SettingsIcon style={{ color: 'white' }}  />
           </ListItemIcon>
           <ListItemText primary="Configurações" />
         </ListItemButton>
-
-        <ListItemButton 
-        onClick={() => handleOptionSelect('sair')}>
-          <ListItemIcon sx={{ justifyContent: 'center', marginRight: 2}}>
-            <ExitToAppIcon style={{ color: 'white' }}  />
-          </ListItemIcon>
-          <ListItemText primary="Sair" />
-        </ListItemButton>
-
       </List>
+
+      <ListItemButton onClick={handleGoBack}
+          sx={{ position: 'absolute', bottom: 0, width: '100%', padding: 5 }}>
+          <ListItemIcon sx={{ justifyContent: 'center', marginRight: 2}}>
+            <ExitToAppIcon style={{ color: 'grey' }}  />
+          </ListItemIcon>
+          <ListItemText primary="Sair" primaryTypographyProps={{ color: 'grey' }} />
+        </ListItemButton>
     </Drawer>
   );
 };

@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Box, Typography } from '@mui/material';
+import SchoolIcon from '@mui/icons-material/School';
 import axios from 'axios';
-import logo from './img/logo.png';
 import arrow from './img/arrow.svg';
 import './Login.css';
 import './App.css';
 
 function Login() {
-  const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [isLoggedIn, setLoggedIn] = useState(false);
 
   const handleLogin = async () => {
     try {
@@ -38,10 +36,13 @@ function Login() {
   };
   
   return (
-    <div className='testeInicio'>
     <div className='container'>
+    <div className='central-div'>
       <header className='header'>
-        <img src={logo} alt='workspace' />
+        <Box sx={{ display: 'flex', alignItems: 'center', color: 'black' }}>
+          <SchoolIcon sx={{ fontSize: '50px' }} />
+          <Typography variant="h4" sx={{ marginLeft: 1, fontWeight: 'bold', margin: 3 }}>LearnQuest</Typography>
+        </Box>
         <span>Minha Conta</span>
       </header>
 
@@ -70,14 +71,14 @@ function Login() {
           />
         </div>
 
-        <a href='#'>Esqueceu a sua senha?</a>
+        <a href='http://localhost:3000'>Esqueceu a sua senha?</a>
         <button className='button' type='button' onClick={handleLogin}>
           Entrar <img src={arrow} alt='' />
         </button>
 
         <div className='footer'>
           <p>Você não tem uma conta?</p>
-          <a href='#'>Crie a sua conta aqui</a>
+          <a href='http://localhost:3000'>Crie a sua conta aqui</a>
         </div>
 
         {errorMessage && <p className='error-message'>{errorMessage}</p>}

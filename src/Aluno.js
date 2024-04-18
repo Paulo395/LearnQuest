@@ -25,9 +25,18 @@ function Aluno() {
     configuracoes: 'Configurações'
   };
 
+  const subtitles = {
+    dashboard: 'Seja bem-vindo à sua plataforma central',
+    mensagens: 'Receba e envie mensagens importantes',
+    jogos: 'Divirta-se e aprenda com nossos jogos educativos',
+    seminarios: 'Participe de seminários e workshops exclusivos',
+    perfil: 'Gerencie e atualize suas informações pessoais',
+    configuracoes: 'Personalize suas preferências e configurações'
+  }
+
   return (
    <div style={{ display: 'flex' }}>
-   <Header title={titles[selectedOption]} />
+   <Header title={titles[selectedOption]} subtitle={subtitles[selectedOption]} />
    <Sidebar selectedOption={selectedOption} handleOptionSelect={handleOptionSelect} />
    <div className='containerAluno'>
      {selectedOption === 'dashboard' && <AlunoDashboard />}

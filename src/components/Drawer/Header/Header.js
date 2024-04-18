@@ -1,4 +1,6 @@
-const Header = ({ title }) => {
+import { fontSize } from "@mui/system";
+
+const Header = ({ title, subtitle }) => {
   return (
     <div style={{
       padding: 20,
@@ -10,7 +12,8 @@ const Header = ({ title }) => {
       right: 0, // Isso garante que ele ocupe a largura total
       zIndex: 1000 // Garante que o cabeçalho fique sobre outros elementos
     }}>
-      <h1>{title}</h1>
+      <h1 style={{fontSize: 25, margin: 2}}>{title}</h1>
+      <h3 style={{fontSize: 10, color: "gray"}}>{subtitle}</h3>
     </div>
   );
 };
