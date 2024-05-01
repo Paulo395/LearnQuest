@@ -10,13 +10,15 @@ function Login() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [nome, setNome] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleLogin = async () => {
     try {
       const response = await axios.post('https://localhost:7243/api/usuario/login', {
         email,
-        senha: password
+        senha: password,
+        nome
       });
   
       if (response.status === 200) {
