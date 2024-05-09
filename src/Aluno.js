@@ -7,7 +7,7 @@ import AlunoJogos from './Pages/Aluno/AlunoJogos';
 import AlunoSeminarios from './Pages/Aluno/AlunoSeminarios';
 import AlunoPerfil from './Pages/Aluno/AlunoPerfil';
 import AlunoConfiguracao from './Pages/Aluno/AlunoConfiguracao';
-import './Aluno.css';
+import './Aluno.css'; //Não faz nada?
 
 function Aluno() {
   const [selectedOption, setSelectedOption] = useState('dashboard');
