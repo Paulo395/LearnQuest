@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Sidebar from "./components/Drawer/Sidebar/Sidebar";
 import Header from "./components/Drawer/Header/Header";
 import AlunoDashboard from './Pages/Aluno/AlunoDashboard';
@@ -8,11 +8,20 @@ import AlunoJogos from './Pages/Aluno/AlunoJogos';
 import AlunoSeminarios from './Pages/Aluno/AlunoSeminarios';
 import AlunoPerfil from './Pages/Aluno/AlunoPerfil';
 import AlunoConfiguracao from './Pages/Aluno/AlunoConfiguracao';
-import './Aluno.css'; // Não faz nada?
+import './Aluno.css';
 
 function Aluno() {
   const [selectedOption, setSelectedOption] = useState('dashboard');
-  const { id } = useParams(); // Captura o parâmetro 'id' da URL
+  const [alunoId, setAlunoId] = useState(null); // Estado para armazenar o ID do aluno
+  const location = useLocation(); // Hook do React Router para acessar a localização (URL)
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const id = searchParams.get('id');
+    if (id) {
+      setAlunoId(id);
+    }
+  }, [location.search]); // Atualiza sempre que a query string da URL muda
 
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
@@ -34,9 +43,7 @@ function Aluno() {
     seminarios: 'Participe de seminários e workshops exclusivos',
     perfil: 'Gerencie e atualize suas informações pessoais',
     configuracoes: 'Personalize suas preferências e configurações'
-  }
-
-  console.log('ID do Aluno Aluno.js:', id); // Exibe o ID do aluno no console
+  };
 
   return (
    <div style={{ display: 'flex' }}>
@@ -47,8 +54,8 @@ function Aluno() {
        {selectedOption === 'mensagens' && <AlunoMensagens />}
        {selectedOption === 'jogos' && <AlunoJogos />}
        {selectedOption === 'seminarios' && <AlunoSeminarios />}
-       {selectedOption === 'perfil' && <AlunoPerfil alunoId={id} />} {/* Passa o ID como prop 'alunoId' */}
-       {selectedOption === 'configuracoes' && <AlunoConfiguracao />}
+       {selectedOption === 'perfil' && <AlunoPerfil alunoId={alunoId} />}
+       {selectedOption === 'configuracoes' && <AlunoConfiguracao alunoId={alunoId} />}
      </div>
    </div>
   );
