@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import Sidebar from "./components/Drawer/Sidebar/Sidebar";
 import Header from "./components/Drawer/Header/Header";
 import AlunoDashboard from './Pages/Aluno/AlunoDashboard';
@@ -7,10 +8,11 @@ import AlunoJogos from './Pages/Aluno/AlunoJogos';
 import AlunoSeminarios from './Pages/Aluno/AlunoSeminarios';
 import AlunoPerfil from './Pages/Aluno/AlunoPerfil';
 import AlunoConfiguracao from './Pages/Aluno/AlunoConfiguracao';
-import './Aluno.css'; //Não faz nada?
+import './Aluno.css'; // Não faz nada?
 
 function Aluno() {
   const [selectedOption, setSelectedOption] = useState('dashboard');
+  const { id } = useParams(); // Captura o parâmetro 'id' da URL
 
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
@@ -34,19 +36,21 @@ function Aluno() {
     configuracoes: 'Personalize suas preferências e configurações'
   }
 
+  console.log('ID do Aluno Aluno.js:', id); // Exibe o ID do aluno no console
+
   return (
    <div style={{ display: 'flex' }}>
-   <Header title={titles[selectedOption]} subtitle={subtitles[selectedOption]} />
-   <Sidebar selectedOption={selectedOption} handleOptionSelect={handleOptionSelect} />
-   <div className='containerAluno'>
-     {selectedOption === 'dashboard' && <AlunoDashboard />}
-     {selectedOption === 'mensagens' && <AlunoMensagens />}
-     {selectedOption === 'jogos' && <AlunoJogos />}
-     {selectedOption === 'seminarios' && <AlunoSeminarios />}
-     {selectedOption === 'perfil' && <AlunoPerfil />}
-     {selectedOption === 'configuracoes' && <AlunoConfiguracao />}
+     <Header title={titles[selectedOption]} subtitle={subtitles[selectedOption]} />
+     <Sidebar selectedOption={selectedOption} handleOptionSelect={handleOptionSelect} />
+     <div className='containerAluno'>
+       {selectedOption === 'dashboard' && <AlunoDashboard />}
+       {selectedOption === 'mensagens' && <AlunoMensagens />}
+       {selectedOption === 'jogos' && <AlunoJogos />}
+       {selectedOption === 'seminarios' && <AlunoSeminarios />}
+       {selectedOption === 'perfil' && <AlunoPerfil alunoId={id} />} {/* Passa o ID como prop 'alunoId' */}
+       {selectedOption === 'configuracoes' && <AlunoConfiguracao />}
+     </div>
    </div>
- </div>
   );
 }
 
