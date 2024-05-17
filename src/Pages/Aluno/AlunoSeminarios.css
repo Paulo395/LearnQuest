@@ -1,0 +1,46 @@
+.seminarios-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .seminario-card {
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    padding: 20px;
+    width: 90%; /* Ajuste a largura conforme necessário */
+    margin: 10px 0;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    position: relative;
+  }
+  
+  .seminario-card h3 {
+    margin: 10px 0;
+    color: #333;
+  }
+  
+  .seminario-card p {
+    margin: 10px 0;
+  }
+  
+  button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 0;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100%; /* Ajuste conforme necessário */
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  

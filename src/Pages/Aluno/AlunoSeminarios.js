@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './AlunoSeminarios.css'; // Importar o arquivo CSS para estilização
 
 const AlunoSeminarios = () => {
   const [seminarios, setSeminarios] = useState([]);
@@ -18,20 +19,13 @@ const AlunoSeminarios = () => {
   }, []);
 
   return (
-    <div>
-      <h2>Seminários do Aluno</h2>
+    <div className="seminarios-container">
       {seminarios.map(seminario => (
-        <div key={seminario.id}>
+        <div className="seminario-card" key={seminario.id}>
           <h3>{seminario.titulo}</h3>
-          <iframe width="560" 
-          height="315" 
-          src="https://www.youtube.com/embed/FTQbiNvZqaY?si=w3nIFP5DMRQc58Lm" 
-          title="YouTube video player" 
-          frameborder="0" 
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-          referrerpolicy="strict-origin-when-cross-origin" 
-          allowfullscreen></iframe>
           <p>{seminario.descricao}</p>
+          <button>VideoAula</button>
+          <button>Documento</button>
         </div>
       ))}
     </div>

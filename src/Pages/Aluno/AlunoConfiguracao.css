@@ -1,0 +1,47 @@
+.configuracao-container {
+    padding: 20px;
+  }
+  
+  .configuracao-form {
+    border-radius: 10px;
+    width: 300px;
+  }
+  
+  .configuracao-form label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .configuracao-form input[type="text"],
+  .configuracao-form input[type="email"],
+  .configuracao-form input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  button:disabled {
+    background-color: #cccccc;
+  }
+  
+  button:hover:not(:disabled) {
+    background-color: #45a049;
+  }
+  
+  .sucesso-mensagem {
+    color: green;
+  }
+  

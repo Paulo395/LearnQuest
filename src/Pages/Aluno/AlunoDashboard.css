@@ -1,0 +1,46 @@
+.dashboard-container {
+    display: flex; /* Utiliza flexbox para organizar os itens */
+    justify-content: space-around; /* Espaçamento uniforme entre os itens */
+    align-items: center; /* Centraliza os itens verticalmente */
+    flex-wrap: wrap; /* Permite que os itens sejam envolvidos em várias linhas se necessário */
+  }
+  
+  .dashboard-item {
+    padding: 20px;
+    background-color: #eaeaea;
+    border-radius: 10px;
+    width: 29%; /* Largura de cada item */
+    margin-bottom: 10px;
+  }
+  
+  .dashboard-item h2 {
+    margin-bottom: 50px;
+  }
+  
+  .dashboard-item button {
+    background-color: #72bb53;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  .full-width-div {
+    background-color: #eaeaea;
+    border-radius: 10px;
+    width: 62%;
+    height: 60%;
+    padding: 20px;
+    overflow: hidden; 
+  }
+
+  .dashboard-item-des {
+    padding: 20px;
+    background-color: #eaeaea;
+    border-radius: 10px;
+    width: 29%; /* Largura de cada item */
+    height: 60%;
+    margin-bottom: 10px;
+  }

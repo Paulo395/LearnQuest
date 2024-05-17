@@ -1,0 +1,27 @@
+.admin-mensagens-container {
+    padding: 20px;
+  }
+  
+  .mensagem-input {
+    width:100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 10px;
+    resize: vertical; /* Permite redimensionar verticalmente */
+  }
+  
+  .enviar-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+  
+  .enviar-button:hover {
+    background-color: #45a049;
+  }
+  

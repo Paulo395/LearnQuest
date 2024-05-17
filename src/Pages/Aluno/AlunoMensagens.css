@@ -1,0 +1,23 @@
+.mensagens-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .mensagem-card {
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    padding: 20px;
+    width: 90%; /* Ajuste a largura conforme necessário */
+    margin: 10px 0;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  .mensagem-card p {
+    margin: 0;
+    color: #333;
+  }
+  
+  /* Estilizações adicionais como animações, hover effects, etc., podem ser adicionadas conforme necessário */
+  

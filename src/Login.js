@@ -28,7 +28,7 @@ function Login() {
         localStorage.setItem('userId', userId);
 
         if (tipoUsuario === 'Admin') {
-          window.location.href = '/admin';
+          window.location.href = `/admin?id=${userId}`;
         } else if (tipoUsuario === 'Aluno') {
           // Redireciona para a página do aluno com o userId como parâmetro na URL
           window.location.href = `/aluno?id=${userId}`;
@@ -77,9 +77,16 @@ function Login() {
             />
           </div>
 
+          <a href='http://localhost:3000'>Esqueceu a sua senha?</a>
+
           <button className='button' type='button' onClick={handleLogin}>
             Entrar <img src={arrow} alt='' />
           </button>
+
+          <div className='footer'>
+            <p>Você não tem uma conta?</p>
+            <a href='http://localhost:3000'>Crie a sua conta aqui</a>
+          </div>
 
           {errorMessage && <p className='error-message'>{errorMessage}</p>}
         </form>

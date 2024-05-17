@@ -32,7 +32,6 @@ function AlunoPerfil() {
 
   return (
     <div>
-      <h2>Perfil do Aluno</h2>
       {aluno ? (
         <div>
           <p><strong>Nome:</strong> {aluno.nome}</p>

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect  } from 'react';
+import { useLocation } from 'react-router-dom';
 import Sidebar from "./components/Drawer/Sidebar/Sidebar";
 import Header from "./components/Drawer/Header/Header";
 import AdminDashboard from './Pages/Admin/AdminDashboard';
@@ -12,6 +13,16 @@ import './Aluno.css';
 function Admin() {
   const [selectedOption, setSelectedOption] = useState('dashboard');
   const [userType, setUserType] = useState('Admin');
+  const [alunoId, setAlunoId] = useState(null); // Estado para armazenar o ID do aluno
+  const location = useLocation(); // Hook do React Router para acessar a localização (URL)
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const id = searchParams.get('id');
+    if (id) {
+      setAlunoId(id);
+    }
+  }, [location.search]);
 
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
@@ -44,7 +55,7 @@ function Admin() {
      {selectedOption === 'mensagens' && <AdminMensagens />}
      {selectedOption === 'jogos' && <AdminJogos />}
      {selectedOption === 'seminarios' && <AdminSeminarios />}
-     {selectedOption === 'perfil' && <AdminPerfil />}
+     {selectedOption === 'perfil' && <AdminPerfil alunoId={alunoId}/>}
      {selectedOption === 'configuracoes' && <AdminConfiguracao />}
    </div>
  </div>

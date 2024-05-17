@@ -28,7 +28,7 @@ const AlunoJogos = () => {
     setPerguntaIndex(0);
     setScore(0);
     setQuizCompleted(false);
-    setRespostasDadas(Array(disciplina.perguntas.length).fill(false)); // Inicializa o array de respostas dadas
+    setRespostasDadas(Array(disciplina.perguntas.length).fill(false));
   };
 
   const handleProximaPergunta = () => {
@@ -40,12 +40,12 @@ const AlunoJogos = () => {
   };
 
   const handleRespostaClick = (isCorrect) => {
-    if (!respostasDadas[perguntaIndex]) { // Verifica se a pergunta ainda não foi respondida
+    if (!respostasDadas[perguntaIndex]) {
       if (isCorrect) {
-        setScore((prevScore) => prevScore + 1); // Incrementa a pontuação apenas se a resposta for correta
+        setScore((prevScore) => prevScore + 1);
       }
       const newRespostasDadas = [...respostasDadas];
-      newRespostasDadas[perguntaIndex] = true; // Marca a pergunta como respondida
+      newRespostasDadas[perguntaIndex] = true;
       setRespostasDadas(newRespostasDadas);
     }
   };
@@ -60,7 +60,6 @@ const AlunoJogos = () => {
 
   return (
     <div className="aluno-jogos-container">
-      <h2>Jogos do Aluno</h2>
       {!disciplinaSelecionada ? (
         <div className="disciplinas-container">
           {disciplinas.map((disciplina) => (
@@ -71,24 +70,22 @@ const AlunoJogos = () => {
           ))}
         </div>
       ) : (
-        <div className="perguntas-container">
+        <div className="quiz-container">
           {quizCompleted ? (
-            <div>
+            <div className="resultado-quiz">
               <p>Parabéns! Você completou o quiz.</p>
               <p>Pontuação: {score} de {disciplinaSelecionada.perguntas.length}</p>
               <button onClick={handleVoltarInicio}>Voltar ao Início</button>
             </div>
           ) : (
-            <div>
-              <p>{disciplinaSelecionada.perguntas[perguntaIndex].titulo}</p>
-              <ul>
-                {disciplinaSelecionada.perguntas[perguntaIndex].respostas.map((resposta, index) => (
-                  <li key={index} onClick={() => handleRespostaClick(resposta.correta)}>
-                    <button>{resposta.alternativa}</button>
-                  </li>
-                ))}
-              </ul>
-              <button onClick={handleProximaPergunta}>Próxima Pergunta</button>
+            <div className="pergunta-ativa">
+              <p><strong>Pergunta:</strong> {disciplinaSelecionada.perguntas[perguntaIndex].titulo}</p>
+              {disciplinaSelecionada.perguntas[perguntaIndex].respostas.map((resposta, index) => (
+                <button key={index} onClick={() => handleRespostaClick(resposta.correta)} className="resposta-btn">
+                  {resposta.alternativa}
+                </button>
+              ))}
+              <button onClick={handleProximaPergunta} className="proximo-btn">Próxima Pergunta</button>
             </div>
           )}
         </div>

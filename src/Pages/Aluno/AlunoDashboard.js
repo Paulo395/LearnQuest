@@ -1,12 +1,51 @@
 import React from 'react';
+import './AlunoDashboard.css'; // Importe seu arquivo de estilos CSS
+import DesempenhoDisciplinas from './DesempenhoDisciplinas'
 
-const AlunoDashboard = () => {
+const Dashboard = () => {
+  // Função para lidar com o clique no botão
+  const handleButtonClick = (title) => {
+    alert(`Você clicou no botão ${title}`);
+  };
+
+  const desempenho = {
+    portugues: 80,
+    matematica: 75,
+    ciencias: 90
+  };
+
   return (
-    <div>
-      <h2>Dashboard do Aluno</h2>
-      <p>Conteúdo do dashboard</p>
+    <div className="dashboard-container">
+      {/* Div 1 */}
+      <div className="dashboard-item">
+        <h2>Título 1</h2>
+        <button onClick={() => handleButtonClick('Botão 1')}>Botão 1</button>
+      </div>
+
+      {/* Div 2 */}
+      <div className="dashboard-item">
+        <h2>Título 2</h2>
+        <button onClick={() => handleButtonClick('Botão 2')}>Botão 2</button>
+      </div>
+
+      {/* Div 3 */}
+      <div className="dashboard-item">
+        <h2>Título 3</h2>
+        <button onClick={() => handleButtonClick('Botão 3')}>Botão 3</button>
+      </div>
+
+      {/* Div que ocupa toda a largura disponível */}
+      <div className="full-width-div">
+        <DesempenhoDisciplinas desempenho={desempenho} />
+      </div>
+
+      <div className="dashboard-item-des">
+        <h2>Título 4</h2>
+        <button onClick={() => handleButtonClick('Botão 3')}>Botão 3</button>
+      </div>
+
     </div>
   );
 };
 
-export default AlunoDashboard;
+export default Dashboard;

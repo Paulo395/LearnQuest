@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './AdminMensagens.css'; // Importando o arquivo CSS
 
 const AdminMensagens = () => {
   const [mensagem, setMensagem] = useState('');
@@ -21,17 +22,16 @@ const AdminMensagens = () => {
   };
 
   return (
-    <div>
-      <h2>Mensagens do Admin</h2>
+    <div className="admin-mensagens-container">
+      <h2>Criar Nova Mensagem</h2>
       <form onSubmit={handleSubmit}>
         <textarea
           value={mensagem}
           onChange={handleInputChange}
           placeholder="Digite sua mensagem aqui..."
-          rows="4"
-          cols="50"
+          className="mensagem-input"
         ></textarea>
-        <button type="submit">Enviar Mensagem</button>
+        <button type="submit" className="enviar-button">Enviar Mensagem</button>
       </form>
     </div>
   );
