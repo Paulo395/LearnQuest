@@ -1,7 +1,6 @@
 .dashboard-container {
     display: flex; /* Utiliza flexbox para organizar os itens */
     justify-content: space-around; /* Espaçamento uniforme entre os itens */
-    align-items: center; /* Centraliza os itens verticalmente */
     flex-wrap: wrap; /* Permite que os itens sejam envolvidos em várias linhas se necessário */
   }
   
@@ -31,7 +30,7 @@
     background-color: #eaeaea;
     border-radius: 10px;
     width: 62%;
-    height: 60%;
+    height: 55%;
     padding: 20px;
     overflow: hidden; 
   }
@@ -41,6 +40,6 @@
     background-color: #eaeaea;
     border-radius: 10px;
     width: 29%; /* Largura de cada item */
-    height: 60%;
-    margin-bottom: 10px;
+    height: 55%;
+    margin-bottom: 0px;
   }

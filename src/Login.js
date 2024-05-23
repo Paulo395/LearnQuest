@@ -30,8 +30,9 @@ function Login() {
         if (tipoUsuario === 'Admin') {
           window.location.href = `/admin?id=${userId}`;
         } else if (tipoUsuario === 'Aluno') {
-          // Redireciona para a página do aluno com o userId como parâmetro na URL
           window.location.href = `/aluno?id=${userId}`;
+        }else if (tipoUsuario === 'Professor') {
+          window.location.href = `/professor?id=${userId}`;
         } else {
           setErrorMessage('Tipo de usuário desconhecido.');
         }

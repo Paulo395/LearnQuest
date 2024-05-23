@@ -8,6 +8,12 @@ import AlunoJogos from './Pages/Aluno/AlunoJogos';
 import AlunoSeminarios from './Pages/Aluno/AlunoSeminarios';
 import AlunoPerfil from './Pages/Aluno/AlunoPerfil';
 import AlunoConfiguracao from './Pages/Aluno/AlunoConfiguracao';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import GamesIcon from '@mui/icons-material/Games';
+import PersonIcon from '@mui/icons-material/Person';
+import ArticleIcon from '@mui/icons-material/Article';
+import SettingsIcon from '@mui/icons-material/Settings';
 import './Aluno.css';
 
 function Aluno() {
@@ -26,6 +32,15 @@ function Aluno() {
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
   };
+
+  const options = [
+    { label: 'Geral', icon: <DashboardIcon style={{color: 'white'}} />, value: 'dashboard' },
+    { label: 'Mensagens', icon: <MailOutlineIcon style={{color: 'white'}} />, value: 'mensagens' },
+    { label: 'Jogos', icon: <GamesIcon style={{color: 'white'}} />, value: 'jogos' },
+    { label: 'Seminários', icon: <ArticleIcon style={{color: 'white'}} />, value: 'seminarios' },
+    { label: 'Perfil', icon: <PersonIcon style={{color: 'white'}} />, value: 'perfil' },
+    { label: 'Configurações', icon: <SettingsIcon style={{color: 'white'}} />, value: 'configuracoes' }
+  ];
 
   const titles = {
     dashboard: 'Dashboard do Aluno',
@@ -48,12 +63,12 @@ function Aluno() {
   return (
    <div style={{ display: 'flex' }}>
      <Header title={titles[selectedOption]} subtitle={subtitles[selectedOption]} />
-     <Sidebar selectedOption={selectedOption} handleOptionSelect={handleOptionSelect} />
+     <Sidebar options={options} selectedOption={selectedOption} handleOptionSelect={handleOptionSelect} />
      <div className='containerAluno'>
-       {selectedOption === 'dashboard' && <AlunoDashboard />}
-       {selectedOption === 'mensagens' && <AlunoMensagens />}
-       {selectedOption === 'jogos' && <AlunoJogos />}
-       {selectedOption === 'seminarios' && <AlunoSeminarios />}
+       {selectedOption === 'dashboard' && <AlunoDashboard alunoId={alunoId}/>}
+       {selectedOption === 'mensagens' && <AlunoMensagens alunoId={alunoId} />}
+       {selectedOption === 'jogos' && <AlunoJogos alunoId={alunoId} />}
+       {selectedOption === 'seminarios' && <AlunoSeminarios alunoId={alunoId} />}
        {selectedOption === 'perfil' && <AlunoPerfil alunoId={alunoId} />}
        {selectedOption === 'configuracoes' && <AlunoConfiguracao alunoId={alunoId} />}
      </div>

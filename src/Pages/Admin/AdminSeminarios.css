@@ -1,32 +1,33 @@
-.admin-seminarios-container {
-    padding: 20px;
-  }
-  
-  .admin-seminarios-container label {
-    display: block;
-    margin-bottom: 10px;
-  }
-  
-  .admin-seminarios-container input[type='text'],
-  .admin-seminarios-container textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-  }
-  
-  .admin-seminarios-container button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 12px 20px;
-    cursor: pointer;
-  }
-  
-  .admin-seminarios-container button:hover {
-    background-color: #45a049;
-  }
-  
+/* AdminTurmas.css */
+
+.admin-turmas-container {
+  padding: 20px;
+}
+
+.admin-turmas-container label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.admin-turmas-container input[type='text'],
+.admin-turmas-container select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.admin-turmas-container button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 12px 20px;
+  cursor: pointer;
+}
+
+.admin-turmas-container button:hover {
+  background-color: #45a049;
+}

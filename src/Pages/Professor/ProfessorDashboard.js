@@ -16,7 +16,7 @@ const AdminDashboard = () => {
     <div className="dashboard-container">
       {/* Div 1 */}
       <div className="dashboard-item">
-        <h2>Admin</h2>
+        <h2>Professor</h2>
         <button onClick={() => handleButtonClick('Botão 1')}>Botão 1</button>
       </div>
 

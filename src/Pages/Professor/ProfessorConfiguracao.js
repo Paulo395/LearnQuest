@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './AdminConfiguracao.css'; // Importar o arquivo CSS para estilização
+import './ProfessorConfiguracao.css'; // Importar o arquivo CSS para estilização
 
-const AdminConfiguracao = ({ alunoId }) => { // Mudar de alunoId para usuarioId
+const ProfessorConfiguracao = ({ usuarioId }) => { // Mudar de alunoId para usuarioId
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
@@ -13,8 +13,8 @@ const AdminConfiguracao = ({ alunoId }) => { // Mudar de alunoId para usuarioId
     e.preventDefault();
     setEnviando(true); 
     try {
-      const dadosAtualizados = { id: alunoId, nome, email, senha };
-      const response = await axios.put(`https://localhost:7243/api/Usuario/${alunoId}`, dadosAtualizados);
+      const dadosAtualizados = { id: usuarioId, nome, email, senha };
+      const response = await axios.put(`https://localhost:7243/api/Usuario/${usuarioId}`, dadosAtualizados);
       setSucesso(true);
     } catch (error) {
       console.error('Erro ao atualizar usuário:', error);
@@ -22,7 +22,7 @@ const AdminConfiguracao = ({ alunoId }) => { // Mudar de alunoId para usuarioId
       setEnviando(false);
     }
   };
-console.log("admin", alunoId)
+
   return (
     <div className="configuracao-container">
       <h2>Atualize seus dados</h2>
@@ -51,4 +51,4 @@ console.log("admin", alunoId)
   );
 };
 
-export default AdminConfiguracao;
+export default ProfessorConfiguracao;

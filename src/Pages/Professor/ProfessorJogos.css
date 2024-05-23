@@ -1,0 +1,52 @@
+.admin-jogos-container {
+    padding: 20px;
+  }
+  
+  .disciplina-container {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 20px;
+    display: flex;
+  }
+  
+  .pergunta-container {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin-top: 10px;
+    width: 30%;
+  }
+  
+  .resposta-container {
+    display: flex; 
+    align-items: center; 
+    margin-top: 10px;
+  }
+  
+  .resposta-container input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .resposta-container label {
+    margin-left: 10px;
+  }
+  
+  .disciplina-container button,
+  .pergunta-container button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+  
+  .disciplina-container button:hover,
+  .pergunta-container button:hover {
+    background-color: #45a049;
+  }
+  

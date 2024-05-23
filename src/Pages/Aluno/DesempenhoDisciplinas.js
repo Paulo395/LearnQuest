@@ -1,74 +1,90 @@
-import React, { useEffect, useRef } from 'react';
-import Chart from 'chart.js/auto'; // Importa a biblioteca Chart.js
+import React, { useEffect, useState, useCallback } from 'react';
+import axios from 'axios';
+import { Bar } from 'react-chartjs-2';
+import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, PointElement, Title, Tooltip, Legend } from 'chart.js';
 
-const AlunoDesempenho = () => {
-  const chartRef = useRef(null); // Referência para o elemento canvas do gráfico
-  let chartInstance = useRef(null); // Referência para a instância do gráfico
+ChartJS.register(BarElement, CategoryScale, LinearScale, PointElement, Title, Tooltip, Legend);
+
+const DesempenhoDisciplinas = ({ alunoId }) => {
+  const [notas, setNotas] = useState([]);
+  const [disciplinas, setDisciplinas] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [colors, setColors] = useState({});
+
+  const generateColor = () => `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, 1)`;
+
+  const fetchData = useCallback(async () => {
+    try {
+      const notasResponse = await axios.get(`https://localhost:7243/api/Nota/${alunoId}`);
+      const disciplinasResponse = await axios.get('https://localhost:7243/api/Disciplina');
+      setNotas(notasResponse.data);
+      setDisciplinas(disciplinasResponse.data);
+
+      // Generate colors for each discipline
+      const disciplineColors = {};
+      disciplinasResponse.data.forEach((disciplina) => {
+        disciplineColors[disciplina.nome] = generateColor();
+      });
+      setColors(disciplineColors);
+
+      setLoading(false);
+    } catch (error) {
+      console.error('Erro ao buscar dados:', error);
+      setError('Erro ao buscar dados. Por favor, tente novamente mais tarde.');
+      setLoading(false);
+    }
+  }, [alunoId]);
 
   useEffect(() => {
-    // Função para criar e atualizar o gráfico ao montar o componente
-    const createChart = () => {
-      const ctx = chartRef.current.getContext('2d'); // Contexto do canvas
+    if (alunoId) {
+      fetchData();
+    }
+  }, [alunoId, fetchData]);
 
-      // Dados do gráfico (exemplo: desempenho nas disciplinas)
-      const data = {
-        labels: ['Português', 'Matemática', 'Ciências'],
-        datasets: [
-          {
-            label: 'Desempenho (%)',
-            data: [85, 75, 90], // Pontuação nas disciplinas
-            backgroundColor: [
-              'rgba(255, 99, 132, 0.5)', // Cor para Português
-              'rgba(54, 162, 235, 0.5)', // Cor para Matemática
-              'rgba(75, 192, 192, 0.5)' // Cor para Ciências
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)', // Cor da borda para Português
-              'rgba(54, 162, 235, 1)', // Cor da borda para Matemática
-              'rgba(75, 192, 192, 1)' // Cor da borda para Ciências
-            ],
-            borderWidth: 1
-          }
-        ]
-      };
+  if (loading) return <p>Carregando...</p>;
+  if (error) return <p>{error}</p>;
 
-      // Configurações do gráfico
-      const options = {
-        maintainAspectRatio: false, // Permite ajuste livre do tamanho do gráfico
-        responsive: true, // Permite resposta à mudança de tamanho da janela
-        scales: {
-          y: {
-            beginAtZero: true,
-            suggestedMin: 0,
-            suggestedMax: 100 // Define limites para o eixo Y (de 0 a 100)
-          }
-        }
-      };
+  const getDisciplinaName = (disciplinaId) => {
+    const disciplina = disciplinas.find(d => d.id === disciplinaId);
+    return disciplina ? disciplina.nome : 'Desconhecida';
+  };
 
-      // Criação da instância do gráfico
-      chartInstance.current = new Chart(ctx, {
-        type: 'bar', // Tipo de gráfico (barra)
-        data: data, // Dados do gráfico
-        options: options // Configurações do gráfico
-      });
+  const datasets = disciplinas.map((disciplina, index) => {
+    const color = colors[disciplina.nome] || generateColor();
+    const notasDisciplina = notas.filter(nota => nota.disciplinaId === disciplina.id);
+    const notasPontuacoes = notasDisciplina.map(nota => nota.pontuacao);
+    return {
+      label: disciplina.nome,
+      data: notasPontuacoes,
+      backgroundColor: color,
     };
+  });
 
-    createChart(); // Chama a função para criar o gráfico ao montar o componente
+  const data = {
+    labels: disciplinas.map(disciplina => disciplina.nome),
+    datasets: datasets,
+  };
 
-    return () => {
-      // Função de limpeza para destruir o gráfico ao desmontar o componente
-      if (chartInstance.current) {
-        chartInstance.current.destroy(); // Destrói a instância do gráfico
-      }
-    };
-  }, []); // Executa apenas uma vez ao montar o componente
+  const options = {
+    scales: {
+      y: {
+        title: {
+          display: true,
+          text: 'Pontuação',
+        },
+        min: 0,
+        max: 10,
+      },
+    },
+  };
 
   return (
-    <div className="chart-container" style={{ maxWidth: '100%', height: '170px'}}>
-    <h2>Desempenho nas Disciplinas</h2>
-      <canvas ref={chartRef}></canvas>
+    <div style={{ maxWidth: '400px' }}>
+      <h2>Gráfico de Notas por Disciplina</h2>
+      <Bar data={data} options={options} />
     </div>
   );
 };
 
-export default AlunoDesempenho;
+export default DesempenhoDisciplinas;

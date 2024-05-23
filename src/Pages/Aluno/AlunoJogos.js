@@ -2,26 +2,52 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './AlunoJogos.css'; // Importando o arquivo CSS
 
-const AlunoJogos = () => {
+const AlunoJogos = ({ alunoId }) => {
   const [disciplinas, setDisciplinas] = useState([]);
   const [disciplinaSelecionada, setDisciplinaSelecionada] = useState(null);
   const [perguntaIndex, setPerguntaIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [respostasDadas, setRespostasDadas] = useState([]);
+  const [turmaId, setTurmaId] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const carregarTurmaId = async () => {
+      try {
+        const response = await axios.get(`https://localhost:7243/api/usuario/${alunoId}`);
+        const aluno = response.data;
+
+        if (aluno.turmaId !== null) {
+          setTurmaId(aluno.turmaId);
+        } else {
+          setError('Você não está associado a nenhuma turma.');
+        }
+      } catch (error) {
+        console.error('Erro ao obter aluno:', error);
+        setError('Erro ao carregar as informações do aluno.');
+      }
+    };
+
+    carregarTurmaId();
+  }, [alunoId]);
 
   useEffect(() => {
     const fetchDisciplinas = async () => {
       try {
-        const response = await axios.get('https://localhost:7243/api/Disciplina');
-        setDisciplinas(response.data);
+        if (turmaId !== null) {
+          const response = await axios.get(`https://localhost:7243/api/Disciplina?turmaId=${turmaId}`);
+          setDisciplinas(response.data);
+        } else {
+          setDisciplinas([]);
+        }
       } catch (error) {
         console.error('Erro ao carregar disciplinas:', error);
       }
     };
 
     fetchDisciplinas();
-  }, []);
+  }, [turmaId]);
 
   const handleDisciplinaClick = (disciplina) => {
     setDisciplinaSelecionada(disciplina);
@@ -36,6 +62,7 @@ const AlunoJogos = () => {
       setPerguntaIndex((prevIndex) => prevIndex + 1);
     } else {
       setQuizCompleted(true);
+      enviarNota(score);
     }
   };
 
@@ -47,6 +74,21 @@ const AlunoJogos = () => {
       const newRespostasDadas = [...respostasDadas];
       newRespostasDadas[perguntaIndex] = true;
       setRespostasDadas(newRespostasDadas);
+    }
+  };
+
+  const enviarNota = async (score) => {
+    try {
+      const response = await axios.post('https://localhost:7243/api/Nota', {
+        alunoId: alunoId,
+        disciplinaId: disciplinaSelecionada.id,
+        pontuacao: score,
+        data: new Date().toISOString()
+      });
+      console.log('Nota enviada com sucesso:', response.data);
+    } catch (error) {
+      console.error('Erro ao enviar nota:', error);
+      setError('Erro ao enviar nota.');
     }
   };
 
