@@ -1,17 +1,29 @@
-.dashboard-container {
-    display: flex; /* Utiliza flexbox para organizar os itens */
-    justify-content: space-around; /* Espaçamento uniforme entre os itens */
-    flex-wrap: wrap; /* Permite que os itens sejam envolvidos em várias linhas se necessário */
-  }
-  
-  .dashboard-item {
+.dashboard-container-aluno {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
     padding: 20px;
-    background-color: #eaeaea;
-    border-radius: 10px;
-    width: 29%; /* Largura de cada item */
-    margin-bottom: 10px;
   }
   
+  .dashboard-item-aluno1 {
+    background-color: #ee9f3e;
+    color: #f0f0f0;
+    padding: 20px;
+    border-radius: 8px;
+    flex: 1 1 300px;
+    min-width: 200px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+
+  .dashboard-item-aluno{
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 8px;
+    flex: 1 1 300px;
+    min-width: 200px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+
   .dashboard-item h2 {
     margin-bottom: 50px;
   }
@@ -29,10 +41,11 @@
   .full-width-div {
     background-color: #eaeaea;
     border-radius: 10px;
-    width: 62%;
-    height: 55%;
+    width: 100%;
+    height: 45%;
     padding: 20px;
     overflow: hidden; 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   }
 
   .dashboard-item-des {

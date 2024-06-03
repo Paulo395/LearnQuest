@@ -11,8 +11,7 @@
   }
   
   .pergunta-container {
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 20px;
     margin-top: 10px;
     width: 30%;

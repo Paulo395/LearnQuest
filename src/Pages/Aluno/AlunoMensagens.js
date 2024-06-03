@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './AlunoMensagens.css'; // Importar o CSS
+import { fontWeight } from '@mui/system';
 
 const AlunoMensagens = ({ alunoId }) => {
   const [mensagens, setMensagens] = useState([]);
@@ -57,7 +58,9 @@ const AlunoMensagens = ({ alunoId }) => {
       ) : (
         mensagens.map(mensagem => (
           <div className="mensagem-card" key={mensagem.id}>
+            <p style={{fontWeight: 'bold', marginBottom: '15px'}}>Nova Mensagem</p>
             <p>{mensagem.conteudo}</p>
+            <p style={{marginTop: '15px', color: 'blue'}}>Data: 03/05/2024</p>
           </div>
         ))
       )}

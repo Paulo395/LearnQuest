@@ -17,7 +17,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import './Aluno.css';
 
 function Professor() {
-  const [selectedOption, setSelectedOption] = useState('dashboard');
+  const [selectedOption, setSelectedOption] = useState('mensagens');
   const [userType, setUserType] = useState('Admin');
   const [usuarioId, setUsuarioId] = useState(null);
   const location = useLocation(); 
@@ -35,9 +35,8 @@ function Professor() {
   };
 
   const options = [
-    { label: 'Geral', icon: <DashboardIcon style={{color: 'white'}} />, value: 'dashboard' },
     { label: 'Mensagens', icon: <AddCommentIcon style={{color: 'white'}} />, value: 'mensagens' },
-    { label: 'Jogos', icon: <CasinoIcon style={{color: 'white'}} />, value: 'jogos' },
+    { label: 'Disciplinas', icon: <CasinoIcon style={{color: 'white'}} />, value: 'jogos' },
     { label: 'Seminários', icon: <PostAddIcon style={{color: 'white'}} />, value: 'seminarios' },
     { label: 'Perfil', icon: <PersonIcon style={{color: 'white'}} />, value: 'perfil' },
     { label: 'Configurações', icon: <SettingsIcon style={{color: 'white'}} />, value: 'configuracoes' }

@@ -1,47 +1,48 @@
 import React from 'react';
-import DesempenhoDisciplinas from '../Aluno/DesempenhoDisciplinas'
+import './ProfessorDashboard.css'; // Importe seu arquivo de estilos CSS
 
 const AdminDashboard = () => {
   const handleButtonClick = (title) => {
     alert(`Você clicou no botão ${title}`);
   };
 
-  const desempenho = {
-    portugues: 80,
-    matematica: 75,
-    ciencias: 90
-  };
-
   return (
     <div className="dashboard-container">
-      {/* Div 1 */}
+      {/* Bem-vindo */}
       <div className="dashboard-item">
-        <h2>Professor</h2>
-        <button onClick={() => handleButtonClick('Botão 1')}>Botão 1</button>
+        <h2>Bem-vindo, Professor!</h2>
+        <p>Estamos felizes em tê-lo de volta. Aqui está uma visão geral rápida do seu dia.</p>
       </div>
 
-      {/* Div 2 */}
+      {/* Aulas de Hoje */}
       <div className="dashboard-item">
-        <h2>Título 2</h2>
-        <button onClick={() => handleButtonClick('Botão 2')}>Botão 2</button>
+        <h2>Aulas de Hoje</h2>
+        <ul>
+          <li>09:00 - Matemática</li>
+          <li>11:00 - Português</li>
+          <li>14:00 - Ciências</li>
+        </ul>
       </div>
 
-      {/* Div 3 */}
+      {/* Notícias Recentes */}
       <div className="dashboard-item">
-        <h2>Título 3</h2>
-        <button onClick={() => handleButtonClick('Botão 3')}>Botão 3</button>
+        <h2>Notícias Recentes</h2>
+        <ul>
+          <li>Nova política de avaliação implementada.</li>
+          <li>Reunião de professores na sexta-feira às 16:00.</li>
+          <li>Semana de provas começa na próxima segunda-feira.</li>
+        </ul>
       </div>
 
-      {/* Div que ocupa toda a largura disponível */}
-      <div className="full-width-div">
-        <DesempenhoDisciplinas desempenho={desempenho} />
-      </div>
-
+      {/* Links Úteis */}
       <div className="dashboard-item">
-        <h2>Título 4</h2>
-        <button onClick={() => handleButtonClick('Botão 3')}>Botão 3</button>
+        <h2>Links Úteis</h2>
+        <ul>
+          <li><a href="#material">Material de Ensino</a></li>
+          <li><a href="#ferramentas">Ferramentas</a></li>
+          <li><a href="#suporte">Suporte Técnico</a></li>
+        </ul>
       </div>
-
     </div>
   );
 };

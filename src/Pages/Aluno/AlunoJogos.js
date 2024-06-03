@@ -107,6 +107,7 @@ const AlunoJogos = ({ alunoId }) => {
           {disciplinas.map((disciplina) => (
             <div key={disciplina.id} className="disciplina-card">
               <h3>{disciplina.nome}</h3>
+              <p>Descrição: acesse os jogos dessa matéria e se aprofunde no conhecimento!</p>
               <button onClick={() => handleDisciplinaClick(disciplina)}>Começar</button>
             </div>
           ))}

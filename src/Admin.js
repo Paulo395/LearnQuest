@@ -13,7 +13,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import './Aluno.css';
 
 function Admin() {
-  const [selectedOption, setSelectedOption] = useState('dashboard');
+  const [selectedOption, setSelectedOption] = useState('Turmas');
   const [userType, setUserType] = useState('Admin');
   const [alunoId, setAlunoId] = useState(null); // Estado para armazenar o ID do aluno
   const location = useLocation(); // Hook do React Router para acessar a localização (URL)
@@ -31,7 +31,6 @@ function Admin() {
   };
 
   const options = [
-    { label: 'Geral', icon: <DashboardIcon style={{color: 'white'}} />, value: 'dashboard' },
     { label: 'Turmas', icon: <ClassIcon style={{color: 'white'}} />, value: 'seminarios' },
     { label: 'Perfil', icon: <PersonIcon style={{color: 'white'}} />, value: 'perfil' },
     { label: 'Configurações', icon: <SettingsIcon style={{color: 'white'}} />, value: 'configuracoes' }
@@ -41,7 +40,7 @@ function Admin() {
     dashboard: 'Dashboard do Administrador',
     mensagens: 'Mensagens do Administrador',
     jogos: 'Adição de Jogos Educativos',
-    seminarios: 'Adicionar Seminários',
+    seminarios: 'Adicionar Turmas',
     perfil: 'Perfil do Administrador',
     configuracoes: 'Configurações'
   }
@@ -50,7 +49,7 @@ function Admin() {
     dashboard: 'Seja bem-vindo à sua plataforma central',
     mensagens: 'Área dedicada para adição de mensagens',
     jogos: 'Adicione Jogos Educativos à sua plataforma',
-    seminarios: 'Adicione Seminários à sua plataforma',
+    seminarios: 'Adicione Turmas à sua plataforma',
     perfil: 'Visualize e edite seu perfil de administrador',
     configuracoes: 'Ajuste as configurações da sua plataforma'
   }

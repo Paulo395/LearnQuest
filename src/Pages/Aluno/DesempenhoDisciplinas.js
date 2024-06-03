@@ -1,9 +1,5 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import { Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, PointElement, Title, Tooltip, Legend } from 'chart.js';
-
-ChartJS.register(BarElement, CategoryScale, LinearScale, PointElement, Title, Tooltip, Legend);
 
 const DesempenhoDisciplinas = ({ alunoId }) => {
   const [notas, setNotas] = useState([]);
@@ -15,6 +11,11 @@ const DesempenhoDisciplinas = ({ alunoId }) => {
   const generateColor = () => `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, 1)`;
 
   const fetchData = useCallback(async () => {
+    if (!alunoId) {
+      // Se alunoId não estiver definido, retorne imediatamente sem fazer nada
+      return;
+    }
+    
     try {
       const notasResponse = await axios.get(`https://localhost:7243/api/Nota/${alunoId}`);
       const disciplinasResponse = await axios.get('https://localhost:7243/api/Disciplina');
@@ -45,44 +46,34 @@ const DesempenhoDisciplinas = ({ alunoId }) => {
   if (loading) return <p>Carregando...</p>;
   if (error) return <p>{error}</p>;
 
-  const getDisciplinaName = (disciplinaId) => {
-    const disciplina = disciplinas.find(d => d.id === disciplinaId);
-    return disciplina ? disciplina.nome : 'Desconhecida';
-  };
-
-  const datasets = disciplinas.map((disciplina, index) => {
-    const color = colors[disciplina.nome] || generateColor();
-    const notasDisciplina = notas.filter(nota => nota.disciplinaId === disciplina.id);
-    const notasPontuacoes = notasDisciplina.map(nota => nota.pontuacao);
-    return {
-      label: disciplina.nome,
-      data: notasPontuacoes,
-      backgroundColor: color,
-    };
-  });
-
-  const data = {
-    labels: disciplinas.map(disciplina => disciplina.nome),
-    datasets: datasets,
-  };
-
-  const options = {
-    scales: {
-      y: {
-        title: {
-          display: true,
-          text: 'Pontuação',
-        },
-        min: 0,
-        max: 10,
-      },
-    },
+  const calcularProgresso = (notasPontuacoes) => {
+    if (notasPontuacoes.length === 0) return 0;
+    const total = notasPontuacoes.reduce((acc, nota) => acc + nota, 0);
+    const maximoPossivel = notasPontuacoes.length * 10;
+    return (total / maximoPossivel) * 100;
   };
 
   return (
     <div style={{ maxWidth: '400px' }}>
-      <h2>Gráfico de Notas por Disciplina</h2>
-      <Bar data={data} options={options} />
+      <h2>Progresso por Disciplina</h2>
+      {disciplinas.slice(0, 2).map(disciplina => { // Limita para as duas primeiras disciplinas
+        const notasDisciplina = notas.filter(nota => nota.disciplinaId === disciplina.id);
+        const notasPontuacoes = notasDisciplina.map(nota => nota.pontuacao);
+        const progresso = calcularProgresso(notasPontuacoes);
+        return (
+          <div key={disciplina.id} style={{ marginBottom: '20px' }}>
+            <p>{disciplina.nome}: {progresso.toFixed(2)}%</p>
+            <div style={{ width: '100%', backgroundColor: '#e0e0e0', borderRadius: '5px' }}>
+              <div style={{
+                width: `${progresso}%`,
+                height: '24px',
+                backgroundColor: colors[disciplina.nome] || generateColor(),
+                borderRadius: '5px'
+              }} />
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };

@@ -1,44 +1,32 @@
 import React from 'react';
 import './AlunoDashboard.css'; // Importe seu arquivo de estilos CSS
-import DesempenhoDisciplinas from './DesempenhoDisciplinas'
+import DesempenhoDisciplinas from './DesempenhoDisciplinas';
 
-const Dashboard = ({alunoId}) => {
+const AunoDashboard = ({ alunoId }) => {
   // Função para lidar com o clique no botão
   const handleButtonClick = (title) => {
     alert(`Você clicou no botão ${title}`);
   };
 
   return (
-    <div className="dashboard-container">
-      <div className="dashboard-item">
+    <div className="dashboard-container-aluno">
+      <div className="dashboard-item-aluno1">
         <h2>Atividades</h2>
-        <button onClick={() => handleButtonClick('Botão 1')}>Botão 1</button>
+        <p>Acesse a sua ultima atividade</p>
+        <button onClick={() => handleButtonClick('Botão 1')}>Ultima Atividade</button>
       </div>
 
-      {/* Div 2 */}
-      <div className="dashboard-item">
+      <div className="dashboard-item-aluno">
         <h2>Seminarios</h2>
-        <button onClick={() => handleButtonClick('Botão 2')}>Botão 2</button>
+        <p>Acesse seu ultimo seminario</p>
+        <button onClick={() => handleButtonClick('Botão 2')}>Ultimo Seminario</button>
       </div>
 
-      {/* Div 3 */}
-      <div className="dashboard-item">
-        <h2>Não Sei</h2>
-        <button onClick={() => handleButtonClick('Botão 3')}>Botão 3</button>
-      </div>
-
-      {/* Div que ocupa toda a largura disponível */}
       <div className="full-width-div">
         <DesempenhoDisciplinas alunoId={alunoId} />
       </div>
-
-      <div className="dashboard-item-des">
-        <h2>Destaque</h2>
-        <button onClick={() => handleButtonClick('Botão 3')}>Botão 3</button>
-      </div>
-
     </div>
   );
 };
 
-export default Dashboard;
+export default AunoDashboard;

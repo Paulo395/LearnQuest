@@ -58,12 +58,12 @@ const ProfessorMensagens = ({ usuarioId }) => {
     <div className="professor-mensagens-container">
       <h2>Criar Nova Mensagem</h2>
       <form onSubmit={handleSubmit}>
-        <textarea
+        <input
           value={mensagem}
           onChange={handleInputChange}
           placeholder="Digite sua mensagem aqui..."
           className="mensagem-input"
-        ></textarea>
+        ></input>
         <button type="submit" className="enviar-button">Enviar Mensagem</button>
       </form>
     </div>

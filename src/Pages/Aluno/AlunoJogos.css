@@ -6,12 +6,12 @@
 }
   
 .disciplina-card {
-   background-color: #eaeaea;
-   padding: 20px;
-   border-radius: 10px;
-   max-width: 300px;
-   width: 100%;
-   margin-bottom: 20px;
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 8px;
+  flex: 1 1 300px;
+  min-width: 200px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
   
 .disciplina-card h3 {
@@ -27,51 +27,27 @@
    cursor: pointer;
    width: 100%;
 }
-  
-.perguntas-container {
-   background-color: rgb(174, 176, 179);
-   padding: 50px;
-   border-radius: 10px;
-   max-width: 70%;
-   max-height: 200px;
-   margin: 0 auto;
-   display: flex;
-   justify-content: center;
-   align-items: center;
+
+.disciplina-card button:active {
+  background-color: #bed1bf; /* Nova cor quando o botão é clicado */
 }
-  
-.perguntas-container h3,
-  .perguntas-container p {
-    margin-bottom: 10px;
-  }
-  
-  .perguntas-container ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .perguntas-container li {
-    margin-bottom: 5px;
-  }
-  
-  .perguntas-container li button {
-    width: 100%;
-    background-color: #008CCC;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 5px;
-    cursor: pointer;
-  }
-  
-  .perguntas-container button {
-    width: 100%;
-    background-color: #008CCC;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px;
-    cursor: pointer;
-    margin-top: 10px;
-  }
-  
+
+.quiz-container {
+  /* Adicione estilos conforme necessário */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.pergunta-ativa {
+  /* Adicione estilos conforme necessário */
+  background-color: #f0f0f0;
+  padding: 50px;
+  width: 90%; /* Ajuste a largura conforme necessário */
+  border-radius: 10px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
