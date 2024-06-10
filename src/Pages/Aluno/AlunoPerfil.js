@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 
-const DesempenhoDisciplinas = ({ alunoId }) => {
+const Progresso = ({ alunoId }) => {
   const [notas, setNotas] = useState([]);
   const [disciplinas, setDisciplinas] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -42,9 +42,21 @@ const DesempenhoDisciplinas = ({ alunoId }) => {
   if (error) return <p>{error}</p>;
 
   const calcularProgressoGeral = () => {
-    const totalNotas = notas.reduce((acc, nota) => acc + nota.pontuacao, 0);
-    const maximoPossivel = notas.length * 10;
-    return (totalNotas / maximoPossivel) * 100;
+    if (notas.length === 0) {
+      return 0; // Retorna 0 se não houver notas
+    }
+
+    let totalPontuacao = 0;
+    let maximoPossivel = 0;
+
+    notas.forEach(nota => {
+      totalPontuacao += nota.pontuacao;
+      maximoPossivel += nota.notaMaxima;
+    });
+
+    // Calcula o progresso geral considerando a nota máxima como 100 e a mínima como 0
+    const progressoGeral = (totalPontuacao / maximoPossivel) * 100;
+    return progressoGeral;
   };
 
   const progressoGeral = calcularProgressoGeral();
@@ -110,7 +122,7 @@ const AlunoPerfil = () => {
       ) : (
         <p>Carregando perfil do aluno...</p>
       )}
-      {aluno && <DesempenhoDisciplinas alunoId={alunoId} />}
+      {aluno && <Progresso alunoId={alunoId} />}
     </div>
   );
 };
