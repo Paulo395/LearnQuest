@@ -3,7 +3,7 @@
 }
 
 .mensagem-input {
-  width: 96%;
+  width: 97%;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 10px;
@@ -58,7 +58,6 @@
 
 .professor-modal-content ul {
   padding: 0;
-  margin: 0;
 }
 
 .professor-modal-content ul li {

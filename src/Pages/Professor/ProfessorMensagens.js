@@ -8,6 +8,8 @@ const ProfessorMensagens = ({ usuarioId }) => {
   const [mensagens, setMensagens] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedMessageId, setSelectedMessageId] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingMessageContent, setEditingMessageContent] = useState('');
 
   useEffect(() => {
     const fetchTurmaId = async () => {
@@ -71,6 +73,37 @@ const ProfessorMensagens = ({ usuarioId }) => {
     }
   };
 
+  const handleEditMensagem = (msg) => {
+    setSelectedMessageId(msg.id);
+    setEditingMessageContent(msg.conteudo);
+    setIsEditing(true);
+    setShowModal(true);
+  };
+
+  const handleSaveEditMensagem = async () => {
+    try {
+      await axios.put(`https://localhost:7243/api/Mensagem/${selectedMessageId}`, {
+        conteudo: editingMessageContent,
+        turmaId
+      });
+      alert('Mensagem editada com sucesso!');
+      setIsEditing(false);
+      setShowModal(false);
+      setSelectedMessageId(null);
+      fetchMensagens(turmaId); // Atualizar lista de mensagens
+    } catch (error) {
+      console.error('Erro ao editar mensagem:', error);
+      alert('Falha ao editar mensagem!');
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    setShowModal(false);
+    setSelectedMessageId(null);
+    setEditingMessageContent('');
+  };
+
   return (
     <div className="professor-mensagens-container">
       <h2>Criar Nova Mensagem</h2>
@@ -83,23 +116,48 @@ const ProfessorMensagens = ({ usuarioId }) => {
         ></input>
         <div className="button-container">
           <button type="submit" className="enviar-button">Enviar Mensagem</button>
-          <button style={{backgroundColor: '#dd3b3b'}}  type="button" onClick={() => setShowModal(true)}>Excluir Mensagens</button>
+          <button
+            style={{ backgroundColor: '#dd3b3b' }}
+            type="button"
+            onClick={() => { setIsEditing(false); setShowModal(true); }}
+          >
+            Editar/Excluir Mensagens
+          </button>
         </div>
       </form>
 
       {showModal && (
         <div className="modal-professor">
           <div className="professor-modal-content">
-            <h3>Excluir Mensagens</h3>
-            <ul>
-              {mensagens.map((msg) => (
-                <li key={msg.id}>
-                  {msg.conteudo}
-                  <button style={{backgroundColor: '#dd3b3b'}}  onClick={() => handleDeleteMensagem(msg.id)}>Excluir</button>
-                </li>
-              ))}
-            </ul>
-            <button className="close-button" onClick={() => setShowModal(false)}>Fechar</button>
+            <h3>{isEditing ? 'Editar Mensagem' : 'Excluir Mensagens'}</h3>
+            {isEditing ? (
+              <div>
+                <input
+                  style={{width: '87%'}}
+                  value={editingMessageContent}
+                  onChange={(e) => setEditingMessageContent(e.target.value)}
+                  placeholder="Edite sua mensagem aqui..."
+                  className="mensagem-input"
+                ></input>
+                <div className="button-container">
+                <button onClick={handleSaveEditMensagem}>Salvar</button>
+                <button onClick={handleCancelEdit}>Cancelar</button>
+                </div>
+              </div>
+            ) : (
+              <ul>
+                {mensagens.map((msg) => (
+                  <li key={msg.id}>
+                    {msg.dataRegistro}
+                    <button style={{ backgroundColor: '#d7e749' }} onClick={() => handleEditMensagem(msg)}>Editar</button>
+                    <button style={{ backgroundColor: '#dd3b3b' }} onClick={() => handleDeleteMensagem(msg.id)}>Excluir</button>
+                  </li>
+                ))}
+              </ul>
+            )}
+            {!isEditing && (
+              <button className="close-button" onClick={() => setShowModal(false)}>Fechar</button>
+            )}
           </div>
         </div>
       )}

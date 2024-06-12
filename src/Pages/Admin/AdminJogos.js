@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './AdminJogos.css'; // Importando o arquivo CSS
+import './AdminJogos.css'; // Importando o arquivo CSS igual ao Seminarios!?
 
 const AdminJogos = () => {
   const [turma, setTurma] = useState({

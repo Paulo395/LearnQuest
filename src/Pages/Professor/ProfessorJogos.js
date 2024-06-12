@@ -20,6 +20,7 @@ const ProfessorJogos = ({ usuarioId }) => {
   const [turmaId, setTurmaId] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedDisciplinaId, setSelectedDisciplinaId] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
 
   useEffect(() => {
@@ -128,6 +129,8 @@ const ProfessorJogos = ({ usuarioId }) => {
       console.log(response.data);
       alert('Disciplina salva com sucesso!');
       setDisciplinasSalvas([...disciplinasSalvas, response.data]);
+      setDisciplina(initialDisciplina);
+      setCurrentStep(0);
     } catch (error) {
       console.error('Erro ao salvar disciplina:', error);
       alert('Erro ao salvar disciplina.');
@@ -147,11 +150,52 @@ const ProfessorJogos = ({ usuarioId }) => {
     }
   };
 
+  const handleEditDisciplina = (disciplina) => {
+    setSelectedDisciplinaId(disciplina.id);
+    setDisciplina(disciplina);
+    setIsEditing(true);
+    setShowModal(true);
+  };
+
+  const handleSaveEditDisciplina = async () => {
+    if (!turmaAtualAluno) {
+      alert('Não foi possível determinar a turma atual do aluno.');
+      return;
+    }
+
+    try {
+      await axios.put(`https://localhost:7243/api/Disciplina/${selectedDisciplinaId}`, {
+        nome: disciplina.nome,
+        descricao: disciplina.descricao,
+        turmaId: turmaAtualAluno,
+        perguntas: disciplina.perguntas,
+        notas: []
+      });
+
+      alert('Disciplina editada com sucesso!');
+      setIsEditing(false);
+      setShowModal(false);
+      setSelectedDisciplinaId(null);
+      fetchDisciplinas(turmaAtualAluno);
+    } catch (error) {
+      console.error('Erro ao editar disciplina:', error);
+      alert('Erro ao editar disciplina.');
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    setShowModal(false);
+    setSelectedDisciplinaId(null);
+    setDisciplina(initialDisciplina);
+    setCurrentStep(0);
+  };
+
   const nextStep = () => {
     if (currentStep < disciplina.perguntas.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      saveDisciplina();
+      isEditing ? handleSaveEditDisciplina() : saveDisciplina();
     }
   };
 
@@ -168,7 +212,7 @@ const ProfessorJogos = ({ usuarioId }) => {
       <div className="pergunta-container">
         <label>Nome da Disciplina:</label>
         <input 
-        style={{marginLeft: '53px'}}
+          style={{marginLeft: '53px'}}
           type="text"
           value={disciplina.nome}
           onChange={(e) => handleDisciplinaChange(e.target.value, 'nome')}
@@ -211,6 +255,7 @@ const ProfessorJogos = ({ usuarioId }) => {
           <div className="button-container">
             <button onClick={prevStep} disabled={currentStep === 0}>Anterior</button>
             <button onClick={nextStep}>{currentStep === disciplina.perguntas.length - 1 ? 'Salvar Disciplina' : 'Próxima'}</button>
+            {isEditing && <button style={{ backgroundColor: '#dd3b3b' }} onClick={handleCancelEdit}>Cancelar Edição</button>}
             <button style={{backgroundColor: '#dd3b3b'}} onClick={() => { setSelectedDisciplinaId(disciplina.id); setShowModal(true); }}>Excluir Disciplina</button>
           </div>
         </div>
@@ -224,7 +269,8 @@ const ProfessorJogos = ({ usuarioId }) => {
               {disciplinasSalvas.map(disciplina => (
                 <li key={disciplina.id}>
                   {disciplina.nome}
-                  <button style={{backgroundColor: '#dd3b3b'}} onClick={() => { handleDeleteDisciplina(disciplina.id); setShowModal(true); }}>Excluir</button>
+                  <button style={{ backgroundColor: '#f0ad4e' }} onClick={() => handleEditDisciplina(disciplina)}>Editar</button>
+                  <button style={{ backgroundColor: '#dd3b3b' }} onClick={() => handleDeleteDisciplina(disciplina.id)}>Excluir</button>
                 </li>
               ))}
             </ul>
