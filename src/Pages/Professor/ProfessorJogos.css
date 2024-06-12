@@ -1,53 +1,29 @@
-.admin-jogos-container {
+.professor-jogos-container {
   padding: 20px;
+  
 }
 
-.perguntas-wrapper {
-  display: flex;
-  flex-wrap: wrap;
+.professor-jogos-container button{
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 12px 20px;
+  cursor: pointer;
+  margin-top: 15px;
 }
 
-.pergunta-container {
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 20px;
-  margin: 10px;
-  box-sizing: border-box;
-}
-
-.resposta-container {
-  display: flex; 
-  align-items: center; 
-  margin-top: 10px;
-}
-
-.resposta-container label {
-  margin-left: 10px;
-}
-
-.disciplina-container{
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 15px;
-}
-
-.disciplina-container input{
+.professor-jogos-container input{
+  padding: 10px;
+  margin: 0 25px 15px 25px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
 
-.disciplina-container button,
 .pergunta-container button {
-  background-color: #4CAF50;
   color: white;
   border: none;
-  border-radius: 4px;
-  padding: 8px 16px;
-  margin-top: 10px;
+  border-radius: 5px;
+  padding: 12px 20px;
   cursor: pointer;
-}
-
-.disciplina-container button:hover,
-.pergunta-container button:hover {
-  background-color: #45a049;
 }

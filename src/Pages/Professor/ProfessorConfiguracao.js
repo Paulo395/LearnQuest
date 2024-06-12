@@ -24,7 +24,7 @@ const ProfessorConfiguracao = ({ usuarioId }) => { // Mudar de alunoId para usua
   };
 
   return (
-    <div className="configuracao-container">
+    <div className="professor-configuracao-container">
       <h2>Atualize seus dados</h2>
       {sucesso ? (
         <p className="sucesso-mensagem">Usuário atualizado com sucesso!</p>
@@ -42,7 +42,7 @@ const ProfessorConfiguracao = ({ usuarioId }) => { // Mudar de alunoId para usua
             Senha:
             <input type="password" value={senha} onChange={(e) => setSenha(e.target.value)} />
           </label>
-          <button type="submit" disabled={enviando}>
+          <button style={{width:'100%'}} type="submit" disabled={enviando}>
             {enviando ? 'Enviando...' : 'Atualizar'}
           </button>
         </form>

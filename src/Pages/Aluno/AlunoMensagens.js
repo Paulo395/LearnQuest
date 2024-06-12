@@ -44,15 +44,14 @@ const AlunoMensagens = ({ alunoId }) => {
           setMensagens([]);
         }
       } catch (error) {
-        console.error("Erro ao buscar mensagens", error);
-        setError('Erro ao carregar as mensagens.');
+        setError('Não a mensagens nessa turma!');
       }
     };
     carregarMensagens();
   }, [turmaId]);
 
   return (
-    <div className="mensagens-container">
+    <div className="aluno-mensagens-container">
       {error ? (
         <div className="error-message">{error}</div>
       ) : (
@@ -60,7 +59,18 @@ const AlunoMensagens = ({ alunoId }) => {
           <div className="mensagem-card" key={mensagem.id}>
             <p style={{fontWeight: 'bold', marginBottom: '15px'}}>Nova Mensagem</p>
             <p>{mensagem.conteudo}</p>
-            <p style={{marginTop: '15px', color: 'blue'}}>Data: 03/05/2024</p>
+            <p style={{ marginTop: '15px', color: '#043474' }}>
+            {(() => {
+            const data = new Date(mensagem.dataRegistro);
+            const dia = data.toLocaleString('pt-BR', { day: '2-digit' });
+            const mes = data.toLocaleString('pt-BR', { month: '2-digit' });
+            const ano = data.toLocaleString('pt-BR', { year: 'numeric' });
+            const hora = data.toLocaleString('pt-BR', { hour: '2-digit' });
+            const minuto = data.getMinutes().toString().padStart(2, '0');
+
+            return `${dia}/${mes}/${ano} às ${hora}:${minuto}`;
+            })()}
+            </p>
           </div>
         ))
       )}

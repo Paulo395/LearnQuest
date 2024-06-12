@@ -18,8 +18,8 @@ import './Aluno.css';
 
 function Aluno() {
   const [selectedOption, setSelectedOption] = useState('dashboard');
-  const [alunoId, setAlunoId] = useState(null); // Estado para armazenar o ID do aluno
-  const location = useLocation(); // Hook do React Router para acessar a localização (URL)
+  const [alunoId, setAlunoId] = useState(null);
+  const location = useLocation();
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -27,7 +27,7 @@ function Aluno() {
     if (id) {
       setAlunoId(id);
     }
-  }, [location.search]); // Atualiza sempre que a query string da URL muda
+  }, [location.search]);
 
   const handleOptionSelect = (option) => {
     setSelectedOption(option);

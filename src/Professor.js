@@ -18,7 +18,6 @@ import './Aluno.css';
 
 function Professor() {
   const [selectedOption, setSelectedOption] = useState('mensagens');
-  const [userType, setUserType] = useState('Admin');
   const [usuarioId, setUsuarioId] = useState(null);
   const location = useLocation(); 
 

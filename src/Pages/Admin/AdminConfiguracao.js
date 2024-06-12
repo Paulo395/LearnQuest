@@ -24,7 +24,7 @@ const AdminConfiguracao = ({ alunoId }) => { // Mudar de alunoId para usuarioId
   };
 console.log("admin", alunoId)
   return (
-    <div className="configuracao-container">
+    <div className="configuracao-container-admin">
       <h2>Atualize seus dados</h2>
       {sucesso ? (
         <p className="sucesso-mensagem">Usuário atualizado com sucesso!</p>

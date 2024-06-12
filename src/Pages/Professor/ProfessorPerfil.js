@@ -31,15 +31,28 @@ function AdminPerfil() {
   console.log('ID do Professor Perfil:', alunoId); // Exibe o ID do aluno no console
 
   return (
-    <div>
+    <div className='aluno-perfil-container' >
       {aluno ? (
-        <div>
-          <p><strong>Nome:</strong> {aluno.nome}</p>
-          <p><strong>Email:</strong> {aluno.email}</p>
-          {/* Adicione outros campos conforme necessário */}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div style={{ marginRight: '50px' }}>
+            <img
+              src="https://via.placeholder.com/150"
+              alt="Foto do Aluno"
+              style={{ width: '170px', height: '170px', borderRadius: '50%', border: '2px solid #eaeaea' }}
+            />
+          </div>
+          <div>
+            <p><strong>Nome:</strong> {aluno.nome}</p>
+            <p><strong>Email:</strong> {aluno.email}</p>
+            <p><strong>Turma:</strong> {aluno.turmaId}</p>
+            <p><strong>Biografia: </strong>  
+            Sou um estudante dedicado, apaixonado por aprender e explorar novos conhecimentos.
+            Busco constantemente desafios que me permitam crescer e desenvolver minhas habilidades. 
+            Estou sempre em busca de novas oportunidades para expandir meus horizontes e contribuir de forma positiva para o mundo ao meu redor.{aluno.email}</p>
+          </div>
         </div>
       ) : (
-        <p>Carregando perfil do admnistrador...</p>
+        <p>Carregando perfil do aluno...</p>
       )}
     </div>
   );

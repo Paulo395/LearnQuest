@@ -1,4 +1,4 @@
-.configuracao-container {
+.Aluno-configuracao-container {
     padding: 20px;
   }
   
@@ -22,7 +22,7 @@
     border: 1px solid #ccc;
   }
   
-  button {
+  .Aluno-configuracao-container button {
     background-color: #4CAF50;
     color: white;
     padding: 10px;

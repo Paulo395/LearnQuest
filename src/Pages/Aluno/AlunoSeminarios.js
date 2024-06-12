@@ -46,14 +46,14 @@ const AlunoSeminarios = ({ alunoId }) => {
   }, [turmaId]);
 
   return (
-    <div className="seminarios-container">
+    <div className="aluno-seminarios-container">
       {error ? (
         <div className="error-message">{error}</div>
       ) : (
         seminarios.map(seminario => (
           <div className="seminario-card" key={seminario.id}>
             <h3>{seminario.titulo}</h3>
-            <p>{seminario.descricao}</p>
+            <p>Descrição: {seminario.descricao}</p>
             <button onClick={() => window.open(seminario.linkVideo, '_blank')}>VideoAula</button>
           </div>
         ))

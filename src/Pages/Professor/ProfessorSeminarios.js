@@ -8,6 +8,9 @@ const AdminSeminarios = ({ usuarioId }) => {
   const [linkVideo, setLinkVideo] = useState('');
   const [turmaId, setTurmaId] = useState(null);
   const [error, setError] = useState(null);
+  const [seminarios, setSeminarios] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedSeminarioId, setSelectedSeminarioId] = useState(null);
 
   useEffect(() => {
     const carregarTurmaId = async () => {
@@ -17,6 +20,7 @@ const AdminSeminarios = ({ usuarioId }) => {
 
         if (usuario.turmaId !== null) {
           setTurmaId(usuario.turmaId);
+          fetchSeminarios(usuario.turmaId);
         } else {
           setError('Você não está associado a nenhuma turma.');
         }
@@ -29,7 +33,14 @@ const AdminSeminarios = ({ usuarioId }) => {
     carregarTurmaId();
   }, [usuarioId]);
 
-  console.log("Semi Id", turmaId)
+  const fetchSeminarios = async (turmaId) => {
+    try {
+      const response = await axios.get(`https://localhost:7243/api/Seminario/listar-todos`);
+      setSeminarios(response.data);
+    } catch (error) {
+      console.error('Erro ao buscar seminários:', error);
+    }
+  };
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -52,14 +63,28 @@ const AdminSeminarios = ({ usuarioId }) => {
       setTitulo('');
       setDescricao('');
       setLinkVideo('');
+      fetchSeminarios(turmaId); // Atualizar lista de seminários
     } catch (error) {
       console.error('Erro ao criar seminário:', error);
       alert('Erro ao criar seminário!');
     }
   };
 
+  const handleDeleteSeminario = async (id) => {
+    try {
+      await axios.delete(`https://localhost:7243/api/Seminario/${id}`);
+      alert('Seminário excluído com sucesso!');
+      setShowModal(false); // Fechar o modal após a exclusão
+      setSelectedSeminarioId(null); // Limpar o seminário selecionado
+      fetchSeminarios(turmaId); // Atualizar lista de seminários
+    } catch (error) {
+      console.error('Erro ao excluir seminário:', error);
+      alert('Erro ao excluir seminário.');
+    }
+  };
+
   return (
-    <div className="admin-seminarios-container">
+    <div className="professor-seminarios-container">
       <h2>Criar Novo Seminário</h2>
       {error ? (
         <div className="error-message">{error}</div>
@@ -77,8 +102,28 @@ const AdminSeminarios = ({ usuarioId }) => {
             <label>Link do Vídeo:</label>
             <input type="text" value={linkVideo} onChange={(e) => setLinkVideo(e.target.value)} required />
           </div>
-          <button type="submit">Criar Seminário</button>
+          <div className="button-container">
+            <button type="submit">Criar Seminário</button>
+            <button style={{backgroundColor: '#dd3b3b'}} type="button" onClick={() => setShowModal(true)}>Excluir Seminários</button>
+          </div>
         </form>
+      )}
+
+      {showModal && (
+        <div className="modal-professor">
+          <div className="professor-modal-content">
+            <h3>Excluir Seminários</h3>
+            <ul>
+              {seminarios.map((seminario) => (
+                <li key={seminario.id}>
+                  {seminario.titulo}
+                  <button style={{backgroundColor: '#dd3b3b'}} onClick={() => handleDeleteSeminario(seminario.id)}>Excluir</button>
+                </li>
+              ))}
+            </ul>
+            <button className="close-button" onClick={() => setShowModal(false)}>Fechar</button>
+          </div>
+        </div>
       )}
     </div>
   );

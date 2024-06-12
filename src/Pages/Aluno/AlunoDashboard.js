@@ -10,7 +10,7 @@ const AunoDashboard = ({ alunoId }) => {
 
   return (
     <div className="dashboard-container-aluno">
-      <div className="dashboard-item-aluno1">
+      <div className="dashboard-item-aluno" style={{backgroundColor: '#ee9f3e', color: 'white'}}>
         <h2>Atividades</h2>
         <p>Acesse a sua ultima atividade</p>
         <button onClick={() => handleButtonClick('Botão 1')}>Ultima Atividade</button>

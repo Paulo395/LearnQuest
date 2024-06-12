@@ -1,4 +1,4 @@
-.seminarios-container {
+.aluno-seminarios-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -9,7 +9,7 @@
     background-color: #f4f4f4;
     border-radius: 10px;
     padding: 40px;
-    width: 90%; /* Ajuste a largura conforme necessário */
+    width: 93%; /* Ajuste a largura conforme necessário */
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     position: relative;
   }
@@ -23,20 +23,13 @@
     margin: 10px 0;
   }
   
-  button {
-    background-color: #4CAF50; /* Green */
-    border: none;
+  .aluno-seminarios-container button {
+    background-color: #4CAF50;
     color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 10px 0;
-    transition: background-color 0.3s ease;
-    cursor: pointer;
+    border: none;
     border-radius: 5px;
-    width: 100%; /* Ajuste conforme necessário */
+    padding: 12px 20px;
+    cursor: pointer;
   }
   
   button:hover {

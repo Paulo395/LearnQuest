@@ -24,7 +24,7 @@ const AlunoConfiguracao = ({ alunoId }) => {
   };
 
   return (
-    <div className="configuracao-container">
+    <div className="Aluno-configuracao-container">
       <h2>Atualize seus dados</h2>
       {sucesso ? (
         <p className="sucesso-mensagem">Usuário atualizado com sucesso!</p>

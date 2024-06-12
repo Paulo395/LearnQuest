@@ -1,7 +1,17 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import './AlunoPerfil.css';
 import { useLocation } from 'react-router-dom';
 
+// Função calcularProgresso
+const calcularProgresso = (notasPontuacoes) => {
+  if (notasPontuacoes.length === 0) return 0;
+  const total = notasPontuacoes.reduce((acc, nota) => acc + nota, 0);
+  const maximoPossivel = notasPontuacoes.length * 3;
+  return (total / maximoPossivel) * 100;
+};
+
+// Componente Progresso
 const Progresso = ({ alunoId }) => {
   const [notas, setNotas] = useState([]);
   const [disciplinas, setDisciplinas] = useState([]);
@@ -42,20 +52,7 @@ const Progresso = ({ alunoId }) => {
   if (error) return <p>{error}</p>;
 
   const calcularProgressoGeral = () => {
-    if (notas.length === 0) {
-      return 0; // Retorna 0 se não houver notas
-    }
-
-    let totalPontuacao = 0;
-    let maximoPossivel = 0;
-
-    notas.forEach(nota => {
-      totalPontuacao += nota.pontuacao;
-      maximoPossivel += nota.notaMaxima;
-    });
-
-    // Calcula o progresso geral considerando a nota máxima como 100 e a mínima como 0
-    const progressoGeral = (totalPontuacao / maximoPossivel) * 100;
+    const progressoGeral = calcularProgresso(notas.map(nota => nota.pontuacao));
     return progressoGeral;
   };
 
@@ -76,6 +73,7 @@ const Progresso = ({ alunoId }) => {
   );
 };
 
+// Componente AlunoPerfil
 const AlunoPerfil = () => {
   const [aluno, setAluno] = useState(null);
   const location = useLocation();
@@ -101,22 +99,25 @@ const AlunoPerfil = () => {
     }
   }, [alunoId]);
 
-  console.log('ID do Aluno Perfil:', alunoId); // Exibe o ID do aluno no console
-
   return (
-    <div>
+    <div className='aluno-perfil-container' >
       {aluno ? (
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <div style={{ marginRight: '20px' }}>
+          <div style={{ marginRight: '50px' }}>
             <img
               src="https://via.placeholder.com/150"
               alt="Foto do Aluno"
-              style={{ width: '150px', height: '150px', borderRadius: '50%', border: '2px solid #eaeaea' }}
+              style={{ width: '170px', height: '170px', borderRadius: '50%', border: '2px solid #eaeaea' }}
             />
           </div>
           <div>
             <p><strong>Nome:</strong> {aluno.nome}</p>
             <p><strong>Email:</strong> {aluno.email}</p>
+            <p><strong>Turma:</strong> {aluno.turmaId}</p>
+            <p><strong>Biografia: </strong>  
+            Sou um estudante dedicado, apaixonado por aprender e explorar novos conhecimentos.
+            Busco constantemente desafios que me permitam crescer e desenvolver minhas habilidades. 
+            Estou sempre em busca de novas oportunidades para expandir meus horizontes e contribuir de forma positiva para o mundo ao meu redor.{aluno.email}</p>
           </div>
         </div>
       ) : (

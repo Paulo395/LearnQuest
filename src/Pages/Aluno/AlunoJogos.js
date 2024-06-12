@@ -11,6 +11,8 @@ const AlunoJogos = ({ alunoId }) => {
   const [respostasDadas, setRespostasDadas] = useState([]);
   const [turmaId, setTurmaId] = useState(null);
   const [error, setError] = useState(null);
+  const [quizPermitted, setQuizPermitted] = useState(true);
+  const [motivo, setMotivo] = useState('');
 
   useEffect(() => {
     const carregarTurmaId = async () => {
@@ -18,10 +20,10 @@ const AlunoJogos = ({ alunoId }) => {
         const response = await axios.get(`https://localhost:7243/api/usuario/${alunoId}`);
         const aluno = response.data;
 
-        if (aluno.turmaId !== null) {
+        if (aluno.turmaId !== null && aluno.turmaId !== 0) {
           setTurmaId(aluno.turmaId);
         } else {
-          setError('Você não está associado a nenhuma turma.');
+          setError('Você não está associado a nenhuma turma válida.');
         }
       } catch (error) {
         console.error('Erro ao obter aluno:', error);
@@ -49,12 +51,33 @@ const AlunoJogos = ({ alunoId }) => {
     fetchDisciplinas();
   }, [turmaId]);
 
-  const handleDisciplinaClick = (disciplina) => {
-    setDisciplinaSelecionada(disciplina);
-    setPerguntaIndex(0);
-    setScore(0);
-    setQuizCompleted(false);
-    setRespostasDadas(Array(disciplina.perguntas.length).fill(false));
+  const verificarSeJaFezAtividade = async (disciplinaId) => {
+    try {
+      const response = await axios.get(`https://localhost:7243/api/Nota/${alunoId}`);
+      const notas = response.data;
+      const notaEncontrada = notas.find(nota => nota.disciplinaId === disciplinaId);
+      if (notaEncontrada) {
+        alert(`Você completou esta atividade em ${new Date(notaEncontrada.data).toLocaleDateString()} com uma pontuação de ${notaEncontrada.pontuacao}.`);
+      }
+      return !!notaEncontrada;
+    } catch (error) {
+      console.error('Erro ao verificar se já fez a atividade:', error);
+      return false;
+    }
+  };
+
+  const handleDisciplinaClick = async (disciplina) => {
+    const jaFezAtividade = await verificarSeJaFezAtividade(disciplina.id);
+    if (jaFezAtividade) {
+      setQuizPermitted(false);
+    } else {
+      setDisciplinaSelecionada(disciplina);
+      setPerguntaIndex(0);
+      setScore(0);
+      setQuizCompleted(false);
+      setRespostasDadas(Array(disciplina.perguntas.length).fill(false));
+      setQuizPermitted(true);
+    }
   };
 
   const handleProximaPergunta = () => {
@@ -98,38 +121,49 @@ const AlunoJogos = ({ alunoId }) => {
     setScore(0);
     setQuizCompleted(false);
     setRespostasDadas([]);
+    setQuizPermitted(true);
+    setMotivo('');
   };
 
   return (
     <div className="aluno-jogos-container">
       {!disciplinaSelecionada ? (
         <div className="disciplinas-container">
-          {disciplinas.map((disciplina) => (
-            <div key={disciplina.id} className="disciplina-card">
-              <h3>{disciplina.nome}</h3>
-              <p>Descrição: acesse os jogos dessa matéria e se aprofunde no conhecimento!</p>
-              <button onClick={() => handleDisciplinaClick(disciplina)}>Começar</button>
-            </div>
+          {disciplinas
+            .filter(disciplina => disciplina.turmaId === turmaId)
+            .map((disciplina) => (
+              <div key={disciplina.id} className="disciplina-card">
+                <h3>{disciplina.nome}</h3>
+                <p>Descrição: {disciplina.descricao}</p>
+                <button onClick={() => handleDisciplinaClick(disciplina)}>Começar</button>
+              </div>
           ))}
         </div>
       ) : (
         <div className="quiz-container">
-          {quizCompleted ? (
-            <div className="resultado-quiz">
-              <p>Parabéns! Você completou o quiz.</p>
-              <p>Pontuação: {score} de {disciplinaSelecionada.perguntas.length}</p>
+          {!quizPermitted ? (
+            <div className="mensagem-ja-fez">
+              <p>{motivo}</p>
               <button onClick={handleVoltarInicio}>Voltar ao Início</button>
             </div>
           ) : (
-            <div className="pergunta-ativa">
-              <p><strong>Pergunta:</strong> {disciplinaSelecionada.perguntas[perguntaIndex].titulo}</p>
-              {disciplinaSelecionada.perguntas[perguntaIndex].respostas.map((resposta, index) => (
-                <button key={index} onClick={() => handleRespostaClick(resposta.correta)} className="resposta-btn">
-                  {resposta.alternativa}
-                </button>
-              ))}
-              <button onClick={handleProximaPergunta} className="proximo-btn">Próxima Pergunta</button>
-            </div>
+            quizCompleted ? (
+              <div className="resultado-quiz">
+                <p>Parabéns! Você completou o quiz.</p>
+                <p>Pontuação: {score} de {disciplinaSelecionada.perguntas.length}</p>
+                <button onClick={handleVoltarInicio}>Voltar ao Início</button>
+              </div>
+            ) : (
+              <div className="pergunta-ativa">
+                <p><strong>Pergunta:</strong> {disciplinaSelecionada.perguntas[perguntaIndex].titulo}</p>
+                {disciplinaSelecionada.perguntas[perguntaIndex].respostas.map((resposta, index) => (
+                  <button key={index} onClick={() => handleRespostaClick(resposta.correta)} className="resposta-btn">
+                    {resposta.alternativa}
+                  </button>
+                ))}
+                <button onClick={handleProximaPergunta} className="proximo-btn">Próxima Pergunta</button>
+              </div>
+            )
           )}
         </div>
       )}

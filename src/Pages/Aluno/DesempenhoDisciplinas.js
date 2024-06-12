@@ -12,7 +12,7 @@ const DesempenhoDisciplinas = ({ alunoId }) => {
 
   const fetchData = useCallback(async () => {
     if (!alunoId) {
-      // Se alunoId não estiver definido, retorne imediatamente sem fazer nada
+      // Se alunoId nÃ£o estiver definido, retorne imediatamente sem fazer nada
       return;
     }
     
@@ -49,7 +49,7 @@ const DesempenhoDisciplinas = ({ alunoId }) => {
   const calcularProgresso = (notasPontuacoes) => {
     if (notasPontuacoes.length === 0) return 0;
     const total = notasPontuacoes.reduce((acc, nota) => acc + nota, 0);
-    const maximoPossivel = notasPontuacoes.length * 10;
+    const maximoPossivel = notasPontuacoes.length * 3;
     return (total / maximoPossivel) * 100;
   };
 

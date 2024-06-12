@@ -1,4 +1,4 @@
-.configuracao-container {
+.configuracao-container-admin {
     padding: 20px;
   }
   
@@ -22,7 +22,7 @@
     border: 1px solid #ccc;
   }
   
-  button {
+  .configuracao-container-admin button {
     background-color: #4CAF50;
     color: white;
     padding: 10px;
@@ -43,5 +43,16 @@
   
   .sucesso-mensagem {
     color: green;
+  }
+
+  button.btn-config{
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
   }
   
