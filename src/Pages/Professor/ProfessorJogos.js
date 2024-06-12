@@ -7,9 +7,9 @@ const ProfessorJogos = ({ usuarioId }) => {
     nome: '',
     descricao: '',
     perguntas: [
-      { titulo: '', respostas: [{ alternativa: '', correta: false }] },
-      { titulo: '', respostas: [{ alternativa: '', correta: false }] },
-      { titulo: '', respostas: [{ alternativa: '', correta: false }] }
+      { titulo: '', respostas: [{ alternativa: '', correta: false }, { alternativa: '', correta: false }, { alternativa: '', correta: false }] },
+      { titulo: '', respostas: [{ alternativa: '', correta: false }, { alternativa: '', correta: false }, { alternativa: '', correta: false }] },
+      { titulo: '', respostas: [{ alternativa: '', correta: false }, { alternativa: '', correta: false }, { alternativa: '', correta: false }] }
     ]
   };
 
@@ -20,6 +20,7 @@ const ProfessorJogos = ({ usuarioId }) => {
   const [turmaId, setTurmaId] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedDisciplinaId, setSelectedDisciplinaId] = useState(null);
+  const [currentStep, setCurrentStep] = useState(0);
 
   useEffect(() => {
     const carregarTurmaAtualAluno = async () => {
@@ -109,6 +110,11 @@ const ProfessorJogos = ({ usuarioId }) => {
       return;
     }
 
+    if (disciplina.perguntas.some(pergunta => !pergunta.respostas.some(resposta => resposta.correta))) {
+      alert('Por favor, marque pelo menos uma alternativa correta para cada pergunta.');
+      return;
+    }
+
     try {
       const newDisciplina = {
         nome: disciplina.nome,
@@ -141,6 +147,20 @@ const ProfessorJogos = ({ usuarioId }) => {
     }
   };
 
+  const nextStep = () => {
+    if (currentStep < disciplina.perguntas.length - 1) {
+      setCurrentStep(currentStep + 1);
+    } else {
+      saveDisciplina();
+    }
+  };
+
+  const prevStep = () => {
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
   return (
     <div className="professor-jogos-container">
       <h2>Administrar Jogos Educacionais</h2>
@@ -148,66 +168,69 @@ const ProfessorJogos = ({ usuarioId }) => {
       <div className="pergunta-container">
         <label>Nome da Disciplina:</label>
         <input 
+        style={{marginLeft: '53px'}}
           type="text"
           value={disciplina.nome}
           onChange={(e) => handleDisciplinaChange(e.target.value, 'nome')}
         />
-        <label>Descrição da Disciplina:</label>
-        <input
-          value={disciplina.descricao}
-          onChange={(e) => handleDisciplinaChange(e.target.value, 'descricao')}
-        />
-        <div>
-          {disciplina.perguntas.map((pergunta, index) => (
-            <div key={index} className="pergunta-container">
-              <label>Pergunta:</label>
-              <input
-                type="text"
-                value={pergunta.titulo}
-                onChange={(e) => handlePerguntaChange(e.target.value, index, 'titulo')}
-              />
-              {pergunta.respostas.map((resposta, subIndex) => (
-                <div key={subIndex} className="alternativa-container">
-                  <label>Alternativa:</label>
-                  <input
-                    type="text"
-                    value={resposta.alternativa}
-                    onChange={(e) => handlePerguntaChange(e.target.value, index, 'alternativa', subIndex)}
-                  />
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={resposta.correta}
-                      onChange={(e) => handlePerguntaChange(e.target.checked, index, 'correta', subIndex)}
-                    />
-                    Correta
-                  </label>
-                </div>
-              ))}
-            </div>
-          ))}
+        <div style={{marginBottom: '40px'}}>
+          <label>Descrição da Disciplina:</label>
+          <input
+            value={disciplina.descricao}
+            onChange={(e) => handleDisciplinaChange(e.target.value, 'descricao')}
+          />
         </div>
-        <div className="button-container">
-          <button onClick={saveDisciplina}>Salvar Disciplina</button>
-          <button style={{backgroundColor: '#dd3b3b'}} onClick={() => { setSelectedDisciplinaId(disciplina.id); setShowModal(true); }}>Excluir Disciplina</button>
+        <div>
+          <div className="pergunta-container">
+            <label>Pergunta:</label>
+            <input
+              style={{marginLeft: '35px'}}
+              type="text"
+              value={disciplina.perguntas[currentStep].titulo}
+              onChange={(e) => handlePerguntaChange(e.target.value, currentStep, 'titulo')}
+            />
+            {disciplina.perguntas[currentStep].respostas.map((resposta, subIndex) => (
+              <div key={subIndex} className="alternativa-container">
+                <label>Alternativa:</label>
+                <input
+                  type="text"
+                  value={resposta.alternativa}
+                  onChange={(e) => handlePerguntaChange(e.target.value, currentStep, 'alternativa', subIndex)}
+                />
+                <label>
+                  <input
+                    type="radio"
+                    checked={resposta.correta}
+                    onChange={(e) => handlePerguntaChange(e.target.checked, currentStep, 'correta', subIndex)}
+                  />
+                  Correta
+                </label>
+              </div>
+            ))}
+          </div>
+          <div className="button-container">
+            <button onClick={prevStep} disabled={currentStep === 0}>Anterior</button>
+            <button onClick={nextStep}>{currentStep === disciplina.perguntas.length - 1 ? 'Salvar Disciplina' : 'Próxima'}</button>
+            <button style={{backgroundColor: '#dd3b3b'}} onClick={() => { setSelectedDisciplinaId(disciplina.id); setShowModal(true); }}>Excluir Disciplina</button>
+          </div>
         </div>
       </div>
 
       {showModal && (
         <div className="modal-professor">
-        <div className="professor-modal-content">
-        <h3>Disciplinas Salvas</h3>
-        <ul>
-          {disciplinasSalvas.map(disciplina => (
-            <li key={disciplina.id}>
-              {disciplina.nome}
-              <button onClick={() => { handleDeleteDisciplina(disciplina.id); setShowModal(true); }}>Excluir</button>
-            </li>
-          ))}
-        </ul>
-          <button className="close-button" onClick={() => setShowModal(false)}>Fechar</button>
+          <div className="professor-modal-content">
+            <h3>Disciplinas Salvas</h3>
+            <ul>
+              {disciplinasSalvas.map(disciplina => (
+                <li key={disciplina.id}>
+                  {disciplina.nome}
+                  <button style={{backgroundColor: '#dd3b3b'}} onClick={() => { handleDeleteDisciplina(disciplina.id); setShowModal(true); }}>Excluir</button>
+                </li>
+              ))}
+            </ul>
+            <button className="close-button" onClick={() => setShowModal(false)}>Fechar</button>
+          </div>
         </div>
-      </div>
       )}
     </div>
   );

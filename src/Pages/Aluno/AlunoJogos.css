@@ -49,5 +49,15 @@
   border-radius: 10px;
   margin-bottom: 20px;
   font-weight: bold;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.pergunta-ativa button{
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 12px 20px;
+  width: 60%;
+  margin: 10px;
+  cursor: pointer;
 }

@@ -48,7 +48,7 @@ function AdminPerfil() {
             <p><strong>Biografia: </strong>  
             Sou um estudante dedicado, apaixonado por aprender e explorar novos conhecimentos.
             Busco constantemente desafios que me permitam crescer e desenvolver minhas habilidades. 
-            Estou sempre em busca de novas oportunidades para expandir meus horizontes e contribuir de forma positiva para o mundo ao meu redor.{aluno.email}</p>
+            Estou sempre em busca de novas oportunidades para expandir meus horizontes e contribuir de forma positiva para o mundo ao meu redor.</p>
           </div>
         </div>
       ) : (
