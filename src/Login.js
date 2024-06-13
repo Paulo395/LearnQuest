@@ -13,8 +13,13 @@ function Login() {
   const [password, setPassword] = useState('');
   const [userType, setUserType] = useState('0');  // Default to 'Aluno'
   const [errorMessage, setErrorMessage] = useState('');
+  const [enviando, setEnviando] = useState(false);
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setErrorMessage('');
+    setEnviando(true);
+
     try {
       const response = await axios.post('https://localhost:7243/api/usuario/login', {
         email,
@@ -32,10 +37,22 @@ function Login() {
       }
     } catch (error) {
       setErrorMessage('Credenciais inválidas. Tente novamente.');
+    } finally {
+      setEnviando(false);
     }
   };
 
-  const handleSignUp = async () => {
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    setErrorMessage('');
+    setEnviando(true);
+
+    if (!nome || !email || !password) {
+      setErrorMessage('Por favor, preencha todos os campos.');
+      setEnviando(false);
+      return;
+    }
+
     try {
       const response = await axios.post('https://localhost:7243/api/Usuario', {
         nome,
@@ -49,6 +66,8 @@ function Login() {
       }
     } catch (error) {
       setErrorMessage('Cadastro falhou. Tente novamente.');
+    } finally {
+      setEnviando(false);
     }
   };
 
@@ -65,19 +84,37 @@ function Login() {
 
         {!isCreatingAccount ? (
           // Login form
-          <form>
+          <form onSubmit={handleLogin}>
             <div className='inputContainer'>
               <label htmlFor='email'>E-Mail</label>
-              <input type='text' name='email' id='email' placeholder='exemplo@gmail.com' value={email} onChange={(e) => setEmail(e.target.value)} />
+              <input
+                type='email'
+                name='email'
+                id='email'
+                placeholder='exemplo@gmail.com'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
             </div>
 
             <div className='inputContainer'>
               <label htmlFor='password'>Senha</label>
-              <input type='password' name='password' id='password' placeholder='********' value={password} onChange={(e) => setPassword(e.target.value)} />
+              <input
+                type='password'
+                name='password'
+                id='password'
+                placeholder='********'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
             </div>
 
-            <button className='button' type='button' onClick={handleLogin}>
-              Entrar <img src={arrow} alt='' />
+            {errorMessage && <p className='error-message'>{errorMessage}</p>}
+
+            <button className='button' type='submit' disabled={enviando}>
+              {enviando ? 'Enviando...' : 'Entrar'} <img src={arrow} alt='' />
             </button>
 
             <div className='footer'>
@@ -87,20 +124,44 @@ function Login() {
           </form>
         ) : (
           // Signup form
-          <form>
+          <form onSubmit={handleSignUp}>
             <div className='inputContainer'>
               <label htmlFor='nome'>Nome</label>
-              <input type='text' name='nome' id='nome' placeholder='Seu nome completo' value={nome} onChange={(e) => setNome(e.target.value)} />
+              <input
+                type='text'
+                name='nome'
+                id='nome'
+                placeholder='Seu nome completo'
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
+                required
+              />
             </div>
 
             <div className='inputContainer'>
               <label htmlFor='email'>E-Mail</label>
-              <input type='text' name='email' id='email' placeholder='exemplo@gmail.com' value={email} onChange={(e) => setEmail(e.target.value)} />
+              <input
+                type='email'
+                name='email'
+                id='email'
+                placeholder='exemplo@gmail.com'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
             </div>
 
             <div className='inputContainer'>
               <label htmlFor='password'>Senha</label>
-              <input type='password' name='password' id='password' placeholder='********' value={password} onChange={(e) => setPassword(e.target.value)} />
+              <input
+                type='password'
+                name='password'
+                id='password'
+                placeholder='********'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
             </div>
 
             <FormControl component="fieldset">
@@ -112,8 +173,10 @@ function Login() {
               </RadioGroup>
             </FormControl>
 
-            <button className='button' type='button' onClick={handleSignUp}>
-              Cadastrar <img src={arrow} alt='' />
+            {errorMessage && <p className='error-message'>{errorMessage}</p>}
+
+            <button className='button' type='submit' disabled={enviando}>
+              {enviando ? 'Enviando...' : 'Cadastrar'} <img src={arrow} alt='' />
             </button>
 
             <button className='button' type='button' onClick={() => setIsCreatingAccount(false)}>
@@ -121,8 +184,6 @@ function Login() {
             </button>
           </form>
         )}
-
-        {errorMessage && <p className='error-message'>{errorMessage}</p>}
       </div>
     </div>
   );

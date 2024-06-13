@@ -10,20 +10,23 @@ const ProfessorMensagens = ({ usuarioId }) => {
   const [selectedMessageId, setSelectedMessageId] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editingMessageContent, setEditingMessageContent] = useState('');
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchTurmaId = async () => {
       try {
         const response = await axios.get(`https://localhost:7243/api/usuario/${usuarioId}`);
         const usuario = response.data;
+
         if (usuario.turmaId !== null) {
           setTurmaId(usuario.turmaId);
-          fetchMensagens(usuario.turmaId); // Buscar mensagens quando o turmaId é definido
+          fetchMensagens(usuario.turmaId);
         } else {
-          console.log('Usuário não está associado a nenhuma turma');
+          setError('Usuário não está associado a nenhuma turma');
         }
       } catch (error) {
         console.error('Erro ao obter usuário:', error);
+        setError('Erro ao carregar as informações do usuário.');
       }
     };
 
@@ -45,15 +48,22 @@ const ProfessorMensagens = ({ usuarioId }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (!turmaId) {
+      alert('Você não está associado a nenhuma turma.');
+      return;
+    }
+
+    if (!mensagem.trim()) {
+      alert('Por favor, digite uma mensagem antes de enviar.');
+      return;
+    }
+
     try {
-      if (turmaId !== null) {
-        await axios.post('https://localhost:7243/api/Mensagem', { conteudo: mensagem, turmaId });
-        alert('Mensagem enviada com sucesso!');
-        setMensagem('');
-        fetchMensagens(turmaId); // Atualizar lista de mensagens
-      } else {
-        alert('Erro: Usuário não está associado a nenhuma turma');
-      }
+      await axios.post('https://localhost:7243/api/Mensagem', { conteudo: mensagem, turmaId });
+      alert('Mensagem enviada com sucesso!');
+      setMensagem('');
+      fetchMensagens(turmaId);
     } catch (error) {
       console.error('Erro ao enviar mensagem:', error);
       alert('Falha ao enviar mensagem!');
@@ -64,9 +74,9 @@ const ProfessorMensagens = ({ usuarioId }) => {
     try {
       await axios.delete(`https://localhost:7243/api/Mensagem/${id}`);
       alert('Mensagem deletada com sucesso!');
-      setShowModal(false); // Fechar o modal após a exclusão
-      setSelectedMessageId(null); // Limpar a mensagem selecionada
-      fetchMensagens(turmaId); // Atualizar lista de mensagens
+      setShowModal(false);
+      setSelectedMessageId(null);
+      fetchMensagens(turmaId);
     } catch (error) {
       console.error('Erro ao deletar mensagem:', error);
       alert('Erro ao deletar mensagem.');
@@ -90,7 +100,7 @@ const ProfessorMensagens = ({ usuarioId }) => {
       setIsEditing(false);
       setShowModal(false);
       setSelectedMessageId(null);
-      fetchMensagens(turmaId); // Atualizar lista de mensagens
+      fetchMensagens(turmaId);
     } catch (error) {
       console.error('Erro ao editar mensagem:', error);
       alert('Falha ao editar mensagem!');
@@ -107,24 +117,29 @@ const ProfessorMensagens = ({ usuarioId }) => {
   return (
     <div className="professor-mensagens-container">
       <h2>Criar Nova Mensagem</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          value={mensagem}
-          onChange={handleInputChange}
-          placeholder="Digite sua mensagem aqui..."
-          className="mensagem-input"
-        ></input>
-        <div className="button-container">
-          <button type="submit" className="enviar-button">Enviar Mensagem</button>
-          <button
-            style={{ backgroundColor: '#dd3b3b' }}
-            type="button"
-            onClick={() => { setIsEditing(false); setShowModal(true); }}
-          >
-            Editar/Excluir Mensagens
-          </button>
-        </div>
-      </form>
+      {error ? (
+        <div className="error-message">{error}</div>
+      ) : (
+        <form onSubmit={handleSubmit}>
+          <input
+            value={mensagem}
+            onChange={handleInputChange}
+            placeholder="Digite sua mensagem aqui..."
+            className="mensagem-input"
+            required  // Atributo para validação HTML5
+          ></input>
+          <div className="button-container">
+            <button type="submit" className="enviar-button">Enviar Mensagem</button>
+            <button
+              style={{ backgroundColor: '#dd3b3b' }}
+              type="button"
+              onClick={() => { setIsEditing(false); setShowModal(true); }}
+            >
+              Editar/Excluir Mensagens
+            </button>
+          </div>
+        </form>
+      )}
 
       {showModal && (
         <div className="modal-professor">
@@ -133,15 +148,15 @@ const ProfessorMensagens = ({ usuarioId }) => {
             {isEditing ? (
               <div>
                 <input
-                  style={{width: '87%'}}
+                  style={{ width: '87%' }}
                   value={editingMessageContent}
                   onChange={(e) => setEditingMessageContent(e.target.value)}
                   placeholder="Edite sua mensagem aqui..."
                   className="mensagem-input"
                 ></input>
                 <div className="button-container">
-                <button onClick={handleSaveEditMensagem}>Salvar</button>
-                <button onClick={handleCancelEdit}>Cancelar</button>
+                  <button onClick={handleSaveEditMensagem}>Salvar</button>
+                  <button onClick={handleCancelEdit}>Cancelar</button>
                 </div>
               </div>
             ) : (

@@ -17,7 +17,6 @@ const ProfessorJogos = ({ usuarioId }) => {
   const [disciplinasSalvas, setDisciplinasSalvas] = useState([]);
   const [turmaAtualAluno, setTurmaAtualAluno] = useState(null);
   const [error, setError] = useState('');
-  const [turmaId, setTurmaId] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedDisciplinaId, setSelectedDisciplinaId] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -142,7 +141,7 @@ const ProfessorJogos = ({ usuarioId }) => {
       await axios.delete(`https://localhost:7243/api/Disciplina/${id}`);
       alert('Disciplina excluída com sucesso!');
       setShowModal(false);
-      fetchDisciplinas(turmaId);
+      fetchDisciplinas(turmaAtualAluno);
       setSelectedDisciplinaId(null);
     } catch (error) {
       console.error('Erro ao excluir disciplina:', error);
@@ -208,75 +207,80 @@ const ProfessorJogos = ({ usuarioId }) => {
   return (
     <div className="professor-jogos-container">
       <h2>Administrar Jogos Educacionais</h2>
-
-      <div className="pergunta-container">
-        <label>Nome da Disciplina:</label>
-        <input 
-          style={{marginLeft: '53px'}}
-          type="text"
-          value={disciplina.nome}
-          onChange={(e) => handleDisciplinaChange(e.target.value, 'nome')}
-        />
-        <div style={{marginBottom: '40px'}}>
-          <label>Descrição da Disciplina:</label>
-          <input
-            value={disciplina.descricao}
-            onChange={(e) => handleDisciplinaChange(e.target.value, 'descricao')}
-          />
-        </div>
-        <div>
+      {error ? (
+        <div className="error-message">{error}</div>
+      ) : (
+        <>
           <div className="pergunta-container">
-            <label>Pergunta:</label>
-            <input
-              style={{marginLeft: '35px'}}
+            <label>Nome da Disciplina:</label>
+            <input 
+              style={{marginLeft: '53px'}}
               type="text"
-              value={disciplina.perguntas[currentStep].titulo}
-              onChange={(e) => handlePerguntaChange(e.target.value, currentStep, 'titulo')}
+              value={disciplina.nome}
+              onChange={(e) => handleDisciplinaChange(e.target.value, 'nome')}
             />
-            {disciplina.perguntas[currentStep].respostas.map((resposta, subIndex) => (
-              <div key={subIndex} className="alternativa-container">
-                <label>Alternativa:</label>
+            <div style={{marginBottom: '40px'}}>
+              <label>Descrição da Disciplina:</label>
+              <input
+                value={disciplina.descricao}
+                onChange={(e) => handleDisciplinaChange(e.target.value, 'descricao')}
+              />
+            </div>
+            <div>
+              <div className="pergunta-container">
+                <label>Pergunta:</label>
                 <input
+                  style={{marginLeft: '35px'}}
                   type="text"
-                  value={resposta.alternativa}
-                  onChange={(e) => handlePerguntaChange(e.target.value, currentStep, 'alternativa', subIndex)}
+                  value={disciplina.perguntas[currentStep].titulo}
+                  onChange={(e) => handlePerguntaChange(e.target.value, currentStep, 'titulo')}
                 />
-                <label>
-                  <input
-                    type="radio"
-                    checked={resposta.correta}
-                    onChange={(e) => handlePerguntaChange(e.target.checked, currentStep, 'correta', subIndex)}
-                  />
-                  Correta
-                </label>
+                {disciplina.perguntas[currentStep].respostas.map((resposta, subIndex) => (
+                  <div key={subIndex} className="alternativa-container">
+                    <label>Alternativa:</label>
+                    <input
+                      type="text"
+                      value={resposta.alternativa}
+                      onChange={(e) => handlePerguntaChange(e.target.value, currentStep, 'alternativa', subIndex)}
+                    />
+                    <label>
+                      <input
+                        type="radio"
+                        checked={resposta.correta}
+                        onChange={(e) => handlePerguntaChange(e.target.checked, currentStep, 'correta', subIndex)}
+                      />
+                      Correta
+                    </label>
+                  </div>
+                ))}
               </div>
-            ))}
+              <div className="button-container">
+                <button onClick={prevStep} disabled={currentStep === 0}>Anterior</button>
+                <button onClick={nextStep}>{currentStep === disciplina.perguntas.length - 1 ? 'Salvar Disciplina' : 'Próxima'}</button>
+                {isEditing && <button style={{ backgroundColor: '#dd3b3b' }} onClick={handleCancelEdit}>Cancelar Edição</button>}
+                <button style={{backgroundColor: '#dd3b3b'}} onClick={() => { setSelectedDisciplinaId(disciplina.id); setShowModal(true); }}>Excluir Disciplina</button>
+              </div>
+            </div>
           </div>
-          <div className="button-container">
-            <button onClick={prevStep} disabled={currentStep === 0}>Anterior</button>
-            <button onClick={nextStep}>{currentStep === disciplina.perguntas.length - 1 ? 'Salvar Disciplina' : 'Próxima'}</button>
-            {isEditing && <button style={{ backgroundColor: '#dd3b3b' }} onClick={handleCancelEdit}>Cancelar Edição</button>}
-            <button style={{backgroundColor: '#dd3b3b'}} onClick={() => { setSelectedDisciplinaId(disciplina.id); setShowModal(true); }}>Excluir Disciplina</button>
-          </div>
-        </div>
-      </div>
 
-      {showModal && (
-        <div className="modal-professor">
-          <div className="professor-modal-content">
-            <h3>Disciplinas Salvas</h3>
-            <ul>
-              {disciplinasSalvas.map(disciplina => (
-                <li key={disciplina.id}>
-                  {disciplina.nome}
-                  <button style={{ backgroundColor: '#f0ad4e' }} onClick={() => handleEditDisciplina(disciplina)}>Editar</button>
-                  <button style={{ backgroundColor: '#dd3b3b' }} onClick={() => handleDeleteDisciplina(disciplina.id)}>Excluir</button>
-                </li>
-              ))}
-            </ul>
-            <button className="close-button" onClick={() => setShowModal(false)}>Fechar</button>
-          </div>
-        </div>
+          {showModal && (
+            <div className="modal-professor">
+              <div className="professor-modal-content">
+                <h3>Disciplinas Salvas</h3>
+                <ul>
+                  {disciplinasSalvas.map(disciplina => (
+                    <li key={disciplina.id}>
+                      {disciplina.nome}
+                      <button style={{ backgroundColor: '#f0ad4e' }} onClick={() => handleEditDisciplina(disciplina)}>Editar</button>
+                      <button style={{ backgroundColor: '#dd3b3b' }} onClick={() => handleDeleteDisciplina(disciplina.id)}>Excluir</button>
+                    </li>
+                  ))}
+                </ul>
+                <button className="close-button" onClick={() => setShowModal(false)}>Fechar</button>
+              </div>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
