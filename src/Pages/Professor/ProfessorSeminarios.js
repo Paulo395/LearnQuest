@@ -54,6 +54,12 @@ const AdminSeminarios = ({ usuarioId }) => {
       return;
     }
 
+    // Verifica se já existem 3 seminários para essa turma
+    if (seminarios.length >= 3) {
+      alert('Limite máximo de 3 seminários por turma atingido.');
+      return;
+    }
+
     try {
       const response = await axios.post('https://localhost:7243/api/Seminario', {
         titulo,
@@ -169,8 +175,8 @@ const AdminSeminarios = ({ usuarioId }) => {
                   <input type="text" value={editingLinkVideo} onChange={(e) => setEditingLinkVideo(e.target.value)} required />
                 </div>
                 <div className="button-container">
-                <button onClick={handleSaveEditSeminario}>Salvar</button>
-                <button onClick={handleCancelEdit}>Cancelar</button>
+                  <button onClick={handleSaveEditSeminario}>Salvar</button>
+                  <button onClick={handleCancelEdit}>Cancelar</button>
                 </div>
               </div>
             ) : (

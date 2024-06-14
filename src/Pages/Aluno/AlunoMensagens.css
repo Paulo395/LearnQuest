@@ -8,10 +8,9 @@
   .mensagem-card {
     background-color: #f4f4f4;
     border-radius: 10px;
-    padding: 40px;
+    padding: 30px;
     width: 93%; /* Ajuste a largura conforme necessário */
-    margin: 10px 0;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin: 8px 0;
   }
   
   .mensagem-card p {

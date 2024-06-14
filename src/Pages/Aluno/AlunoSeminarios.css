@@ -8,10 +8,9 @@
   .seminario-card {
     background-color: #f4f4f4;
     border-radius: 10px;
-    padding: 40px;
+    padding: 20px;
     width: 93%; /* Ajuste a largura conforme necessário */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    position: relative;
+    margin: 8px 0;
   }
   
   .seminario-card h3 {

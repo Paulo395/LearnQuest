@@ -46,7 +46,7 @@ const ProfessorJogos = ({ usuarioId }) => {
   const fetchDisciplinas = async (turmaId) => {
     try {
       const response = await axios.get(`https://localhost:7243/api/Disciplina`);
-      setDisciplinasSalvas(response.data);
+      setDisciplinasSalvas(response.data.filter(disciplina => disciplina.turmaId === turmaId));
     } catch (error) {
       console.error('Erro ao buscar disciplinas:', error);
     }
@@ -100,18 +100,8 @@ const ProfessorJogos = ({ usuarioId }) => {
       return;
     }
 
-    if (!disciplina.nome.trim()) {
-      alert('Por favor, forneça um nome para a disciplina.');
-      return;
-    }
-
-    if (disciplina.perguntas.some(pergunta => !pergunta.titulo.trim())) {
-      alert('Por favor, preencha todos os títulos de perguntas.');
-      return;
-    }
-
-    if (disciplina.perguntas.some(pergunta => !pergunta.respostas.some(resposta => resposta.correta))) {
-      alert('Por favor, marque pelo menos uma alternativa correta para cada pergunta.');
+    if (disciplinasSalvas.length >= 6) {
+      alert('A turma já atingiu o limite máximo de 6 disciplinas.');
       return;
     }
 
@@ -210,7 +200,7 @@ const ProfessorJogos = ({ usuarioId }) => {
       {error ? (
         <div className="error-message">{error}</div>
       ) : (
-        <>
+        <form onSubmit={(e) => { e.preventDefault(); nextStep(); }}>
           <div className="pergunta-container">
             <label>Nome da Disciplina:</label>
             <input 
@@ -218,12 +208,14 @@ const ProfessorJogos = ({ usuarioId }) => {
               type="text"
               value={disciplina.nome}
               onChange={(e) => handleDisciplinaChange(e.target.value, 'nome')}
+              required
             />
             <div style={{marginBottom: '40px'}}>
               <label>Descrição da Disciplina:</label>
               <input
                 value={disciplina.descricao}
                 onChange={(e) => handleDisciplinaChange(e.target.value, 'descricao')}
+                required
               />
             </div>
             <div>
@@ -234,6 +226,7 @@ const ProfessorJogos = ({ usuarioId }) => {
                   type="text"
                   value={disciplina.perguntas[currentStep].titulo}
                   onChange={(e) => handlePerguntaChange(e.target.value, currentStep, 'titulo')}
+                  required
                 />
                 {disciplina.perguntas[currentStep].respostas.map((resposta, subIndex) => (
                   <div key={subIndex} className="alternativa-container">
@@ -242,12 +235,15 @@ const ProfessorJogos = ({ usuarioId }) => {
                       type="text"
                       value={resposta.alternativa}
                       onChange={(e) => handlePerguntaChange(e.target.value, currentStep, 'alternativa', subIndex)}
+                      required
                     />
                     <label>
                       <input
                         type="radio"
                         checked={resposta.correta}
                         onChange={(e) => handlePerguntaChange(e.target.checked, currentStep, 'correta', subIndex)}
+                        name={`pergunta-${currentStep}`}
+                        required={disciplina.perguntas[currentStep].respostas.every(r => !r.correta)}
                       />
                       Correta
                     </label>
@@ -255,10 +251,10 @@ const ProfessorJogos = ({ usuarioId }) => {
                 ))}
               </div>
               <div className="button-container">
-                <button onClick={prevStep} disabled={currentStep === 0}>Anterior</button>
-                <button onClick={nextStep}>{currentStep === disciplina.perguntas.length - 1 ? 'Salvar Disciplina' : 'Próxima'}</button>
-                {isEditing && <button style={{ backgroundColor: '#dd3b3b' }} onClick={handleCancelEdit}>Cancelar Edição</button>}
-                <button style={{backgroundColor: '#dd3b3b'}} onClick={() => { setSelectedDisciplinaId(disciplina.id); setShowModal(true); }}>Excluir Disciplina</button>
+                <button type="button" onClick={prevStep} disabled={currentStep === 0}>Anterior</button>
+                <button type="submit">{currentStep === disciplina.perguntas.length - 1 ? 'Salvar Disciplina' : 'Próxima'}</button>
+                {isEditing && <button type="button" style={{ backgroundColor: '#dd3b3b' }} onClick={handleCancelEdit}>Cancelar Edição</button>}
+                <button type="button" style={{backgroundColor: '#dd3b3b'}} onClick={() => { setSelectedDisciplinaId(disciplina.id); setShowModal(true); }}>Excluir Disciplina</button>
               </div>
             </div>
           </div>
@@ -280,7 +276,7 @@ const ProfessorJogos = ({ usuarioId }) => {
               </div>
             </div>
           )}
-        </>
+        </form>
       )}
     </div>
   );

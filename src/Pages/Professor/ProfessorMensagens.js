@@ -11,6 +11,8 @@ const ProfessorMensagens = ({ usuarioId }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editingMessageContent, setEditingMessageContent] = useState('');
   const [error, setError] = useState(null);
+  const [numeroMensagens, setNumeroMensagens] = useState(0); // Estado para controlar o número de mensagens
+  const limiteMensagens = 3; // Limite máximo de mensagens por turma
 
   useEffect(() => {
     const fetchTurmaId = async () => {
@@ -33,6 +35,11 @@ const ProfessorMensagens = ({ usuarioId }) => {
     fetchTurmaId();
   }, [usuarioId]);
 
+  useEffect(() => {
+    // Atualiza o número de mensagens sempre que o estado de mensagens for alterado
+    setNumeroMensagens(mensagens.length);
+  }, [mensagens]);
+
   const fetchMensagens = async (turmaId) => {
     try {
       const response = await axios.get(`https://localhost:7243/api/Mensagem/turma/${turmaId}`);
@@ -51,6 +58,12 @@ const ProfessorMensagens = ({ usuarioId }) => {
 
     if (!turmaId) {
       alert('Você não está associado a nenhuma turma.');
+      return;
+    }
+
+    // Verifica se o número atual de mensagens é menor que o limite máximo
+    if (numeroMensagens >= limiteMensagens) {
+      alert(`Limite máximo de ${limiteMensagens} mensagens atingido para esta turma.`);
       return;
     }
 
@@ -126,7 +139,7 @@ const ProfessorMensagens = ({ usuarioId }) => {
             onChange={handleInputChange}
             placeholder="Digite sua mensagem aqui..."
             className="mensagem-input"
-            required  // Atributo para validação HTML5
+            required
           ></input>
           <div className="button-container">
             <button type="submit" className="enviar-button">Enviar Mensagem</button>
