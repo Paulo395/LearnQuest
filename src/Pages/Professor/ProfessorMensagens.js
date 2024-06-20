@@ -28,7 +28,6 @@ const ProfessorMensagens = ({ usuarioId }) => {
         }
       } catch (error) {
         console.error('Erro ao obter usuário:', error);
-        setError('Erro ao carregar as informações do usuário.');
       }
     };
 

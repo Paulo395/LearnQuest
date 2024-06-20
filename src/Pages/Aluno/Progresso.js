@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import './Progresso.css'; // Importe seu arquivo de estilos CSS
 
-const DesempenhoDisciplinas = ({ alunoId }) => {
+const Progresso = ({ alunoId }) => {
   const [notas, setNotas] = useState([]);
   const [disciplinas, setDisciplinas] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -11,18 +12,12 @@ const DesempenhoDisciplinas = ({ alunoId }) => {
   const generateColor = () => `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, 1)`;
 
   const fetchData = useCallback(async () => {
-    if (!alunoId) {
-      // Se alunoId nÃ£o estiver definido, retorne imediatamente sem fazer nada
-      return;
-    }
-    
     try {
       const notasResponse = await axios.get(`https://localhost:7243/api/Nota/${alunoId}`);
       const disciplinasResponse = await axios.get('https://localhost:7243/api/Disciplina');
       setNotas(notasResponse.data);
       setDisciplinas(disciplinasResponse.data);
 
-      // Generate colors for each discipline
       const disciplineColors = {};
       disciplinasResponse.data.forEach((disciplina) => {
         disciplineColors[disciplina.nome] = generateColor();
@@ -43,9 +38,6 @@ const DesempenhoDisciplinas = ({ alunoId }) => {
     }
   }, [alunoId, fetchData]);
 
-  if (loading) return <p>Carregando...</p>;
-  if (error) return <p>{error}</p>;
-
   const calcularProgresso = (notasPontuacoes) => {
     if (notasPontuacoes.length === 0) return 0;
     const total = notasPontuacoes.reduce((acc, nota) => acc + nota, 0);
@@ -53,29 +45,25 @@ const DesempenhoDisciplinas = ({ alunoId }) => {
     return (total / maximoPossivel) * 100;
   };
 
+  if (loading) return <p>Carregando...</p>;
+  if (error) return <p>{error}</p>;
+
+  const calcularProgressoGeral = () => {
+    const progressoGeral = calcularProgresso(notas.map(nota => nota.pontuacao));
+    return progressoGeral;
+  };
+
+  const progressoGeral = calcularProgressoGeral();
+
   return (
-    <div style={{ maxWidth: '100%' }}>
-      <h2>Progresso por Disciplina</h2>
-      {disciplinas.slice(0, 2).map(disciplina => { // Limita para as duas primeiras disciplinas
-        const notasDisciplina = notas.filter(nota => nota.disciplinaId === disciplina.id);
-        const notasPontuacoes = notasDisciplina.map(nota => nota.pontuacao);
-        const progresso = calcularProgresso(notasPontuacoes);
-        return (
-          <div key={disciplina.id} style={{ marginBottom: '20px' }}>
-            <p>{disciplina.nome}: {progresso.toFixed(2)}%</p>
-            <div style={{ width: '100%', backgroundColor: '#e0e0e0', borderRadius: '5px' }}>
-              <div style={{
-                width: `${progresso}%`,
-                height: '30px',
-                backgroundColor: colors[disciplina.nome] || generateColor(),
-                borderRadius: '5px'
-              }} />
-            </div>
-          </div>
-        );
-      })}
+    <div className="progresso-container">
+      <h2>Progresso Geral do Aluno</h2>
+      <div className="progress-bar-background">
+        <div className="progress-bar" style={{ width: `${progressoGeral}%` }} />
+      </div>
+      <p>{progressoGeral.toFixed(2)}%</p>
     </div>
   );
 };
 
-export default DesempenhoDisciplinas;
+export default Progresso;

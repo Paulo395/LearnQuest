@@ -27,12 +27,7 @@
    width: 100%;
 }
 
-.disciplina-card button:active {
-  background-color: #bed1bf; /* Nova cor quando o botão é clicado */
-}
-
 .quiz-container {
-  /* Adicione estilos conforme necessário */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -41,8 +36,6 @@
 }
 
 .pergunta-ativa {
-  /* Adicione estilos conforme necessário */
-  background-color: #f0f0f0;
   padding: 50px;
   width: 90%; /* Ajuste a largura conforme necessário */
   border-radius: 10px;
@@ -52,11 +45,49 @@
 
 .pergunta-ativa button{
   background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 12px 20px;
-  width: 60%;
-  margin: 10px;
-  cursor: pointer;
+  color: white; /* Cor do texto */
+  border: none; /* Borda */
+  border-radius: 10px; /* Bordas arredondadas */
+  padding: 15px 30px; /* Espaçamento interno */
+  width: 60%; /* Largura */
+  margin: 10px auto; /* Margem */
+  cursor: pointer; /* Cursor de ponteiro */
+  font-size: 1.2em; /* Tamanho da fonte */
+  font-weight: bold; /* Negrito */
+  text-transform: uppercase; /* Texto em maiúsculas */
+  transition: all 0.3s ease; /* Transição suave para todas as propriedades */
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Sombra */
+  display: block; /* Exibição em bloco */
+}
+
+.pergunta-ativa button.active {
+  background-color: #13948d;
+}
+
+.resultado-quiz {
+  background-color: #f9f9f9;
+  border: 2px solid #4CAF50;
+  border-radius: 10px;
+  padding: 20px;
+  width: 80%;
+  max-width: 500px; 
+  text-align: center; 
+  margin-top: 20px; 
+  margin-bottom: 20px; 
+}
+
+.resultado-quiz p {
+  font-size: 1.2em; 
+  margin: 10px 0; 
+}
+
+.resultado-quiz button {
+  background-color: #4CAF50; /* Cor de fundo do botão */
+  color: white; /* Cor do texto do botão */
+  border: none; /* Sem borda */
+  border-radius: 5px; /* Canto arredondado */
+  padding: 12px 20px; /* Espaçamento interno */
+  cursor: pointer; /* Cursor de ponteiro */
+  font-size: 1em; /* Tamanho da fonte */
+  transition: background-color 0.3s; /* Transição suave para mudança de cor */
 }

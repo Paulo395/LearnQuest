@@ -45,10 +45,9 @@ function AdminPerfil() {
             <p><strong>Nome:</strong> {aluno.nome}</p>
             <p><strong>Email:</strong> {aluno.email}</p>
             <p><strong>Turma:</strong> {aluno.turmaId}</p>
-            <p><strong>Biografia: </strong>  
-            Sou um estudante dedicado, apaixonado por aprender e explorar novos conhecimentos.
-            Busco constantemente desafios que me permitam crescer e desenvolver minhas habilidades. 
-            Estou sempre em busca de novas oportunidades para expandir meus horizontes e contribuir de forma positiva para o mundo ao meu redor.{aluno.email}</p>
+            <p>
+            Como administrador da plataforma LearnQuest, estou empenhado(a) em fornecer uma plataforma de aprendizado robusta e fácil de usar para alunos e professores. Sendo ela projetada para facilitar o acesso a recursos educacionais, promover a colaboração e rastrear o progresso do aluno. 
+            </p>
           </div>
         </div>
       ) : (

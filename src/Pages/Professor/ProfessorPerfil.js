@@ -45,10 +45,8 @@ function AdminPerfil() {
             <p><strong>Nome:</strong> {aluno.nome}</p>
             <p><strong>Email:</strong> {aluno.email}</p>
             <p><strong>Turma:</strong> {aluno.turmaId}</p>
-            <p><strong>Biografia: </strong>  
-            Sou um estudante dedicado, apaixonado por aprender e explorar novos conhecimentos.
-            Busco constantemente desafios que me permitam crescer e desenvolver minhas habilidades. 
-            Estou sempre em busca de novas oportunidades para expandir meus horizontes e contribuir de forma positiva para o mundo ao meu redor.</p>
+            <p>
+            Como professor do LearnQuest, estou dedicado(a) a criar experiências de aprendizado envolventes e transformadoras para os alunos. Minhas disciplinas serão projetados para fornecer uma base teórica sólida e oportunidades práticas para desenvolver habilidades essenciais. </p>
           </div>
         </div>
       ) : (

@@ -13,6 +13,7 @@ const AlunoJogos = ({ alunoId }) => {
   const [error, setError] = useState(null);
   const [quizPermitted, setQuizPermitted] = useState(true);
   const [motivo, setMotivo] = useState('');
+  const [activeRespostaIndex, setActiveRespostaIndex] = useState(null); // Novo estado
 
   useEffect(() => {
     const carregarTurmaId = async () => {
@@ -75,29 +76,38 @@ const AlunoJogos = ({ alunoId }) => {
       setPerguntaIndex(0);
       setScore(0);
       setQuizCompleted(false);
-      setRespostasDadas(Array(disciplina.perguntas.length).fill(false));
+      setRespostasDadas(Array(disciplina.perguntas.length).fill(null)); // Modificação para aceitar null
       setQuizPermitted(true);
+      setActiveRespostaIndex(null); // Resetar índice ativo
     }
   };
 
   const handleProximaPergunta = () => {
     if (perguntaIndex < disciplinaSelecionada.perguntas.length - 1) {
       setPerguntaIndex((prevIndex) => prevIndex + 1);
+      setActiveRespostaIndex(null); // Resetar índice ativo
     } else {
       setQuizCompleted(true);
       enviarNota(score);
     }
   };
 
-  const handleRespostaClick = (isCorrect) => {
-    if (!respostasDadas[perguntaIndex]) {
-      if (isCorrect) {
-        setScore((prevScore) => prevScore + 1);
+  const handleRespostaClick = (isCorrect, index) => {
+    const newRespostasDadas = [...respostasDadas];
+    const previousResposta = newRespostasDadas[perguntaIndex];
+
+    // Atualiza a pontuação ao mudar a resposta
+    if (previousResposta !== null) {
+      if (previousResposta.isCorrect) {
+        setScore((prevScore) => prevScore - 1);
       }
-      const newRespostasDadas = [...respostasDadas];
-      newRespostasDadas[perguntaIndex] = true;
-      setRespostasDadas(newRespostasDadas);
     }
+    newRespostasDadas[perguntaIndex] = { isCorrect, index };
+    if (isCorrect) {
+      setScore((prevScore) => prevScore + 1);
+    }
+    setRespostasDadas(newRespostasDadas);
+    setActiveRespostaIndex(index); // Definir índice ativo
   };
 
   const enviarNota = async (score) => {
@@ -123,6 +133,7 @@ const AlunoJogos = ({ alunoId }) => {
     setRespostasDadas([]);
     setQuizPermitted(true);
     setMotivo('');
+    setActiveRespostaIndex(null); // Resetar índice ativo
   };
 
   return (
@@ -149,7 +160,7 @@ const AlunoJogos = ({ alunoId }) => {
           ) : (
             quizCompleted ? (
               <div className="resultado-quiz">
-                <p>Parabéns! Você completou o quiz.</p>
+                <p>Você completou o quiz, parabéns!</p>
                 <p>Pontuação: {score} de {disciplinaSelecionada.perguntas.length}</p>
                 <button onClick={handleVoltarInicio}>Voltar ao Início</button>
               </div>
@@ -157,7 +168,11 @@ const AlunoJogos = ({ alunoId }) => {
               <div className="pergunta-ativa">
                 <p><strong>Pergunta:</strong> {disciplinaSelecionada.perguntas[perguntaIndex].titulo}</p>
                 {disciplinaSelecionada.perguntas[perguntaIndex].respostas.map((resposta, index) => (
-                  <button key={index} onClick={() => handleRespostaClick(resposta.correta)} className="resposta-btn">
+                  <button
+                    key={index}
+                    onClick={() => handleRespostaClick(resposta.correta, index)}
+                    className={`resposta-btn ${activeRespostaIndex === index ? 'active' : ''}`}
+                  >
                     {resposta.alternativa}
                   </button>
                 ))}

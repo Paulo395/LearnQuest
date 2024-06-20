@@ -252,7 +252,7 @@ const ProfessorJogos = ({ usuarioId }) => {
               </div>
               <div className="button-container">
                 <button type="button" onClick={prevStep} disabled={currentStep === 0}>Anterior</button>
-                <button type="submit">{currentStep === disciplina.perguntas.length - 1 ? 'Salvar Disciplina' : 'Próxima'}</button>
+                <button style={{backgroundColor: '#043474'}} type="submit">{currentStep === disciplina.perguntas.length - 1 ? 'Salvar Disciplina' : 'Próxima'}</button>
                 {isEditing && <button type="button" style={{ backgroundColor: '#dd3b3b' }} onClick={handleCancelEdit}>Cancelar Edição</button>}
                 <button type="button" style={{backgroundColor: '#dd3b3b'}} onClick={() => { setSelectedDisciplinaId(disciplina.id); setShowModal(true); }}>Excluir Disciplina</button>
               </div>
